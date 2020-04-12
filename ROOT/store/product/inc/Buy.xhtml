@@ -1,0 +1,29 @@
+
+<div class="buyDiv" xmlns:c="app.ui.faces.component"
+	xmlns:b="app.ui.faces.block">
+	<div class="rmCart buy" title="Remove From Bag"/>
+
+    <div class="buy">
+		<input name="quantity" class="qty"
+			value="#{shoppingCartLineItem.quantity}"
+			onchange="shoppingCart.addItem('#{shoppingCartLineItem.productLineItem.id}',this.value)" />
+		<span style="display: none" class="buyProdId">#{productLineItem.id}</span>
+		<span style="display: none" class="buyProdName">#{productLineItem.product.name}
+			#{productLineItem.quantity} #{productLineItem.unitOfMeasure.name}</span>
+	</div> 
+	<div class="addCart buy" title="Add To Bag" />
+<!-- 	<b:if
+		condition="#{productLineItem.product.productCategory.availability} != null">
+		<span class="prodAvail" onclick="product.checkAvailability(this)">Check
+			Availability</span>
+	</b:if> -->
+
+
+	<!-- 		<b:if condition="#{productLineItem.product.cutOffTime} != null">
+			<div class="prodCutOff" style="font-size: 90%; color: red">
+				Cut off : #{productLineItem.product.cutOffTime.time}
+				#{productLineItem.product.cutOffTime.amOrPm}</div>
+		</b:if> -->
+
+<!-- 	<div class="clr" /> -->
+</div>

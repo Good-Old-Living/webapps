@@ -1,0 +1,154 @@
+<div xmlns:c="app.ui.faces.component">
+
+	<c:entity name="ProductCategory" entityId="#{query.id}" />
+
+	<h1>#{productCategory.name}</h1>
+
+	<c:entityTable entity="Product" filter="productCategory.id=#{query.id}">
+		<c:columns>
+			<c:column label="Brand" value="#{product.brand}" width="100" />
+			<c:column label="Name" value="#{product.name}" width="200" />
+			<c:column label="Type" value="#{product.type.value}" width="100" />
+			<c:column label="Description" value="#{product.shortDescription}" />
+		</c:columns>
+	</c:entityTable>
+
+	<c:tabs binds="product">
+		<c:tab title="Information">
+			<c:entityForm entity="Product">
+				<c:inputHidden value="#{product.productCategory.id}" default="#{query.id}" />
+				<c:panelGrid labelStyle="width:150px">
+					<c:inputText label="Brand" value="#{product.brand}" />
+					<c:inputText label="Name" value="#{product.name}" />
+					<c:selectOneEntityMenu value="#{product.type.value}" label="Type" entity="PropertyGroup" filter="name=product-type" req="false"/>
+					<c:inputText label="Popularity" value="#{product.popularity}" />
+<!-- 					<c:inputText label="Cut Off" value="#{product.cutOffTime.id}" req="false"/> -->
+					<c:inputText label="Short Description" value="#{product.shortDescription}" />
+					<c:selectBooleanCheckBox label="Is Active?" value="#{product.isActive}" />
+					<c:selectBooleanCheckBox label="Is Subscribable?" value="#{product.subscribable}" />
+					<c:selectBooleanCheckBox label="Is Orderable" value="#{product.orderable}" />
+					<c:inputTextarea label="Delivery Instructions" value="#{product.deliveryInstructions}" />
+					<c:inputTextarea label="Description" type="rich" value="#{product.description}" />
+				</c:panelGrid>
+			</c:entityForm>
+		</c:tab>
+		<c:tab title="Images">
+
+			<c:entityTable entity="ProductImage" filter="entityId=#{product.id}" autoLoad="false">
+				<c:columns>
+					<c:column label="Image" value="#{productImage.image}" width="400" />
+				</c:columns>
+			</c:entityTable>
+			<c:panelGroup binds="productImage">
+				<c:entityForm entity="ProductImage">
+					<c:inputHidden value="#{productImage.entityId}" default="#{product.id}" />
+					<c:panelGrid>
+						<c:inputFile value="#{productImage.image}" label="Image" />
+					</c:panelGrid>
+				</c:entityForm>
+			</c:panelGroup>
+
+		</c:tab>
+		<c:tab title="Features">
+			<c:entityTable entity="ProductFeature" filter="productId=#{product.id}" autoLoad="false">
+				<c:columns>
+					<c:column label="Name" value="#{productFeature.name}" width="200" />
+					<c:column label="Type" value="#{productFeature.type.value}" width="200" />
+					<c:column label="Attributes" value="#{productFeature.attributes}" />
+				</c:columns>
+			</c:entityTable>
+			<c:panelGroup title="Selected Feature" binds="productFeature">
+				<c:entityForm entity="ProductFeature">
+					<c:inputHidden value="#{productFeature.productId}" default="#{product.id}" />
+
+					<c:panelGrid columns="2" labelStyle="width:100px">
+						<c:inputText label="Name" value="#{productFeature.name}" />
+						<c:selectOneEntityMenu label="Attribute Type" value="#{productFeature.type.value}" entity="PropertyGroup" filter="name=attribute-feature-type" />
+						<c:inputText label="Attributes" value="#{productFeature.attributes}" />
+						<c:inputInt label="Sort Order" value="#{productFeature.sortOrder}" />
+					</c:panelGrid>
+				</c:entityForm>
+			</c:panelGroup>
+		</c:tab>
+		<c:tab title="Product Items">
+			<c:entityTable entity="ProductLineItem" filter="product.id=#{product.id}&amp;category=regular" autoLoad="false">
+				<c:columns>
+					<c:column label="Item Id" value="#{productLineItem.code}" width="100" sortable="true" />
+					<c:column label="Product Name" value="#{productLineItem.product.name}" width="200" sortable="true" />
+					<c:column label="quantity" value="#{productLineItem.quantity}" width="100" />
+					<c:column label="Unit Of Measure" value="#{productLineItem.unitOfMeasure.value}" width="70" />
+					<c:column label="MRP" value="#{productLineItem.mrp}" width="70" />
+					<c:column label="Discount" value="#{productLineItem.discount}#{productLineItem.discountType.value}" width="70" />
+					<c:column label="Default?" value="#{productLineItem.isDefault}" width="70" />
+					<c:column label="Sort Order" value="#{productLineItem.sortOrder}" />
+				</c:columns>
+			</c:entityTable>
+
+			<c:tabs binds="productLineItem">
+				<c:tab title="Information">
+					<c:entityForm entity="ProductLineItem">
+						<c:inputHidden value="#{productLineItem.product.id}" default="#{product.id}" />
+						<c:inputHidden value="#{productLineItem.category}" default="regular" />
+						<c:inputHidden value="#{productLineItem.tnImage}"/>
+						
+						<c:panelGrid columns="2">
+							<c:inputInt value="#{productLineItem.code}" label="Code" />
+							<c:inputText value="#{productLineItem.netQuantity}" label="Available Quantity" />
+							<c:inputText value="#{productLineItem.quantity}" label="Quantity" />
+							<c:selectOneEntityMenu value="#{productLineItem.unitOfMeasure.value}" label="Unit Of Measure" entity="PropertyGroup" filter="name=unit-of-measure" />
+							<c:selectOneEntityMenu value="#{productLineItem.packageType.value}" label="Package Type" entity="PropertyGroup" filter="name=package-type"  req="false"/>
+							<c:inputText value="#{productLineItem.mrp}" label="MRP" />
+							<c:inputText value="#{productLineItem.discount}" label="Discount" />
+							<c:selectOneEntityMenu value="#{productLineItem.discountType.value}" label="Discount Type" entity="PropertyGroup" filter="name=discount-type" req="false"/>
+							<c:inputText value="#{productLineItem.sortOrder}" label="Sort Order" />
+							<c:selectBooleanCheckBox value="#{productLineItem.isDefault}" label="Is Default?" />
+							<c:selectBooleanCheckBox value="#{productLineItem.isActive}" label="Is Active?" />
+							<c:selectBooleanCheckBox value="#{productLineItem.inStock}" label="In Stock?" />
+						</c:panelGrid>
+					</c:entityForm>
+				</c:tab>
+
+				<c:tab title="Images">
+					<c:entityTable entity="ProductLineItemImage" filter="productId=#{product.id}&amp;entityId=#{productLineItem.id}" var="productLineItemImage" autoLoad="false">
+						<c:columns>
+						 	<c:column label="Image" value="#{productLineItemImage.image}" width="75" type="img" contentStyle="width:75px;height:75px"/>
+						 	<c:column label="Path" value="#{productLineItemImage.image}"/>
+						</c:columns>
+					</c:entityTable>
+					<c:panelGroup title="Image" binds="productLineItemImage">
+						<c:entityForm entity="ProductLineItemImage" listenVar="productLineItemImage">
+							<c:inputHidden value="#{productLineItemImage.productId}" default="#{product.id}" />
+							<c:inputHidden value="#{productLineItemImage.entityId}" default="#{productLineItem.id}" />
+							<c:panelGrid>
+								<c:inputFile value="#{productLineItemImage.image}" label="Image" />
+							</c:panelGrid>
+						</c:entityForm>
+					</c:panelGroup>
+				</c:tab>
+				<c:tab title="Features">
+				
+				
+					<c:entityTable entity="ProductFeatureValue" filter="ownerId=#{productLineItem.id}&amp;ownerType=PL&amp;orderBy=sortOrder" lifeCycle="none" autoLoad="false">
+						<c:columns>
+							<c:column label="Feature Name" value="#{productFeatureValue.productFeature.name}" width="150"/>
+							<c:column label="Attribute Name" value="#{productFeatureValue.rowAttributeName}" width="150"/>
+							<c:column label="Value" value="#{productFeatureValue.value}"/>
+						</c:columns>
+					</c:entityTable>
+					<c:panelGroup title="Product Feature Value" binds="productFeatureValue">
+						<c:entityForm entity="ProductFeatureValue">
+							<c:inputHidden value="#{productFeatureValue.ownerId}"/>
+							<c:inputHidden value="#{productFeatureValue.ownerType}"/>
+							<c:inputHidden value="#{productFeatureValue.productFeature.id}"/>
+							<c:panelGrid>
+								<c:inputText label="Attribute Name" value="#{productFeatureValue.rowAttributeName}"/>
+								<c:inputText label="Value" value="#{productFeatureValue.value}"/>
+								<c:inputText label="sortOrder" value="#{productFeatureValue.sortOrder}"/>
+							</c:panelGrid>
+						</c:entityForm>
+					</c:panelGroup>
+				</c:tab>
+			</c:tabs>
+		</c:tab>
+	</c:tabs>
+</div>

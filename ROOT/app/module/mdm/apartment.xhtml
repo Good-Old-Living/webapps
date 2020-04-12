@@ -1,0 +1,46 @@
+<div xmlns:c="app.ui.faces.component">
+		<h2>Business Partners</h2>
+
+		<c:entityTable entity="Apartment">
+			<c:columns>
+				<c:column label="Name" value="#{apartment.name}" width="250" />
+				<c:column label="Location"
+					value="#{apartment.area.name}" />
+
+			</c:columns>
+		</c:entityTable>
+
+		<c:panelGroup binds="apartment">
+			<c:entityForm entity="Apartment">
+				<c:panelGrid>
+					<c:panelGridSection title="Apartment Information">
+
+						<c:inputText label="Name" value="#{apartment.name}" />
+						<c:inputText label="Flat No. Fiels"
+							value="#{apartment.flatNoFields}" />
+					</c:panelGridSection>
+					<c:panelGridSection title="Apartment Address">
+						<c:inputTextarea label="Address"
+							value="#{apartment.address}" />
+						<c:inputText label="Landmark"
+							value="#{apartment.landmark}" />
+						<c:selectOneEntityMenu
+							value="#{apartment.area.name}" label="Area"
+							entity="CityArea" filter="cityId=1&amp;orderBy=name" />
+						<c:selectOneEntityMenu
+							value="#{apartment.city.name}" label="City"
+							entity="City" filter="countryId=1&amp;stateId=18" default="1" />
+						<c:selectOneEntityMenu
+							value="#{apartment.state.name}" label="State"
+							entity="State" filter="countryId=1" default="18" />
+						<c:selectOneEntityMenu
+							value="#{apartment.country.name}" label="Country"
+							entity="Country" default="1" />
+						<c:inputText label="Pin"
+							value="#{apartment.pinCode}" length="6"
+							regExp="^[0-9]+$" />
+					</c:panelGridSection>
+				</c:panelGrid>
+			</c:entityForm>
+		</c:panelGroup>s
+</div>

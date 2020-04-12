@@ -1,0 +1,5 @@
+/scratch/app/apache-tomcat-8.5.43/webapps/faces/js/thirdparty/jquery/jquery-ui-1.11.4/jquery-ui.min.css
+/scratch/app/apache-tomcat-8.5.43/webapps/faces/theme/basic/css/app.css
+/scratch/app/apache-tomcat-8.5.43/webapps/ROOT/st/css/account.css
+/scratch/app/apache-tomcat-8.5.43/webapps/ROOT/st/css/ecom.css
+/scratch/app/apache-tomcat-8.5.43/webapps/ROOT/st/css/admin-app.css

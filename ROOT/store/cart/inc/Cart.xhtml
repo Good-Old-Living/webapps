@@ -1,0 +1,26 @@
+<div xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:entityTable id="shoppingCartTable" class="shoppingCartTable" entity="ShoppingCartLineItem" params="checkout" rowSelection="none" selectable="false" numberable="true"
+		removeable="true" contentStyle="max-height:10000px;" lifeCycle="none">
+		<c:columns>
+			<c:column value="#{shoppingCartLineItem.productLineItem.tnImage}" width="75" sortable="true" align="center" type="img" contentStyle="width:75px;height:75px" />
+			<c:column label="Product"
+				value="#{shoppingCartLineItem.productLineItem.product.brand} #{shoppingCartLineItem.productLineItem.product.name} #{shoppingCartLineItem.productLineItem.quantity} #{shoppingCartLineItem.productLineItem.unitOfMeasure.value}"
+				sortable="true"
+				href="/product#{shoppingCartLineItem.productLineItem.product.productCategory.qualifiedName}/#{shoppingCartLineItem.productLineItem.product.brand}~#{shoppingCartLineItem.productLineItem.product.name}/#{shoppingCartLineItem.productLineItem.quantity} #{shoppingCartLineItem.productLineItem.unitOfMeasure.value}" />
+			<c:column label="Quantity" value="#{shoppingCartLineItem.quantity}" width="70" sortable="true" align="center" editable="true"
+				editableValue="#{shoppingCartLineItem.productLineItem.id}" onInputChange="shoppingCart.addItem(this.getAttribute('eid'), this.value)" />
+			<c:column label="Price" value="#{shoppingCartLineItem.productLineItem.mrp}" width="150" align="right" />
+			<c:column label="Total Price" value="#{shoppingCartLineItem.totalPrice}" width="150" align="right" />
+		</c:columns>
+
+	</c:entityTable>
+
+    <c:entity name="SessionShoppingCart" entityId="-1">
+           <div style="text-align: right;font-size:140%;margin:10px 0;font-weight:bold"> 
+               Grand Total : Rs #{sessionShoppingCart.grandTotal}
+           </div>
+    </c:entity>
+
+
+</div>

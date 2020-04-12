@@ -1,0 +1,1 @@
+A new order goodoldliving.com/app/module/sales/PrintInvoice.xhtml?orderId=#{salesOrder.id} has been placed

@@ -1,0 +1,192 @@
+<div xmlns:c="app.ui.faces.component">
+
+	<c:entity name="ProductCategory" entityId="#{query.id}" />
+
+	<h1>#{productCategory.name}</h1>
+
+	<c:entityTable entity="ProductCategory" filter="parentId=#{query.id}&amp;orderBy=sortOrder">
+		<c:columns>
+			<c:column label="Name" value="#{productCategory.name}" width="200" />
+			<c:column label="Qualified Name" value="#{productCategory.qualifiedName}" width="300" />
+			<c:column label="Sort Order" value="#{productCategory.sortOrder}" />
+		</c:columns>
+	</c:entityTable>
+	<c:tabs binds="productCategory">
+		<c:tab title="Information">
+			<c:entityForm entity="ProductCategory">
+				<c:inputHidden value="#{productCategory.parentId}" default="#{query.id}" />
+				<c:inputHidden value="#{productCategory.type}" default="category" />
+				<c:inputHidden value="#{productCategory.kind}" default="module" />
+				<c:panelGrid columns="2" labelStyle="width:100px">
+					<c:inputText label="Name" value="#{productCategory.name}" />
+					<c:inputText label="Availability" value="#{productCategory.availability}" />
+					<c:inputText label="Sort Order" value="#{productCategory.sortOrder}" />
+					<c:selectOneEntityMenu label="Tax" value="#{productCategory.tax.name}" entity="Tax"/>
+					<c:inputText label="Tags" value="#{productCategory.tags}" />
+					<c:inputText label="Notse" value="#{productCategory.notes}" />
+					<c:selectBooleanCheckBox label="Orderable?" value="#{productCategory.orderable}" />
+					<c:selectBooleanCheckBox label="Is Active?" value="#{productCategory.isActive}" />
+				</c:panelGrid>
+			</c:entityForm>
+		</c:tab>
+		<c:tab title="Features">
+			<c:tabs>
+				<c:tab title="Single">
+
+					<c:entityTable entity="EntityFeature" filter="ownerType=ProductCategory&amp;ownerId=#{productCategory.id}&amp;type.id=1" autoLoad="false" var="singleEntityFeature">
+						<c:columns>
+							<c:column label="Name" value="#{singleEntityFeature.name}" width="200" />
+						</c:columns>
+					</c:entityTable>
+					<c:tabs binds="singleEntityFeature">
+						<c:tab title="Selected Feature">
+							<c:entityForm entity="EntityFeature" var="singleEntityFeature">
+								<c:inputHidden value="#{singleEntityFeature.ownerId}" default="#{productCategory.id}" />
+								<c:inputHidden value="#{singleEntityFeature.ownerType}" default="ProductCategory" />
+								<c:inputHidden value="#{singleEntityFeature.type.id}" default="1" />
+								<c:panelGrid columns="2" labelStyle="width:100px">
+									<c:inputText label="Name" value="#{singleEntityFeature.name}" />
+									<!-- 								<c:selectOneEntityMenu label="Attribute Type" value="#{productCategoryFeature.type.value}" entity="PropertyGroup" filter="name=attribute-feature-type" />
+								<c:inputText label="Attributes" value="#{productCategoryFeature.attributes}" />
+ -->
+									<c:inputInt label="Sort Order" value="#{singleEntityFeature.sortOrder}" />
+								</c:panelGrid>
+							</c:entityForm>
+						</c:tab>
+						<c:tab title="Value">
+							<c:entityTable entity="EntityFeatureValue" filter="entityFeatureId=#{singleEntityFeature.id}" autoLoad="false" var="singleEntityFeatureValue">
+								<c:columns>
+									<c:column label="Value" value="#{singleEntityFeatureValue.value}" width="200" />
+								</c:columns>
+							</c:entityTable>
+							<c:panelGroup title="Selected Value" binds="singleEntityFeatureValue">
+								<c:entityForm entity="EntityFeatureValue" var="singleEntityFeatureValue">
+									<c:inputHidden value="#{singleEntityFeatureValue.entityFeatureId}" default="#{singleEntityFeature.id}" />
+									<c:panelGrid columns="2" labelStyle="width:100px">
+										<c:inputText label="Value" value="#{singleEntityFeatureValue.value}" />
+									</c:panelGrid>
+								</c:entityForm>
+							</c:panelGroup>
+						</c:tab>
+					</c:tabs>
+				</c:tab>
+				<c:tab title="List">
+
+					<c:entityTable entity="EntityFeature" filter="ownerType=ProductCategory&amp;ownerId=#{productCategory.id}&amp;type.id=2" autoLoad="false" var="listEntityFeature">
+						<c:columns>
+							<c:column label="Name" value="#{listEntityFeature.name}" width="200" />
+						</c:columns>
+					</c:entityTable>
+					<c:tabs binds="listEntityFeature">
+						<c:tab title="Selected Feature">
+							<c:entityForm entity="EntityFeature" var="listEntityFeature">
+								<c:inputHidden value="#{listEntityFeature.ownerId}" default="#{productCategory.id}" />
+								<c:inputHidden value="#{listEntityFeature.ownerType}" default="ProductCategory" />
+								<c:inputHidden value="#{listEntityFeature.type.id}" default="2" />
+								<c:panelGrid columns="2" labelStyle="width:100px">
+									<c:inputText label="Name" value="#{listEntityFeature.name}" />
+									<c:inputInt label="Sort Order" value="#{listEntityFeature.sortOrder}" />
+								</c:panelGrid>
+							</c:entityForm>
+						</c:tab>
+						<c:tab title="Value">
+							<c:entityTable entity="EntityFeatureValue" filter="entityFeatureId=#{listEntityFeature.id}" autoLoad="false" var="listEntityFeatureValue">
+								<c:columns>
+									<c:column label="Value" value="#{listEntityFeatureValue.value}" width="200" />
+								</c:columns>
+							</c:entityTable>
+							<c:panelGroup title="Selected Value" binds="listEntityFeatureValue">
+								<c:entityForm entity="EntityFeatureValue" var="listEntityFeatureValue">
+									<c:inputHidden value="#{listEntityFeatureValue.entityFeatureId}" default="#{listEntityFeature.id}" />
+									<c:panelGrid columns="2" labelStyle="width:100px">
+										<c:inputText label="Value" value="#{listEntityFeatureValue.value}" />
+									</c:panelGrid>
+								</c:entityForm>
+							</c:panelGroup>
+						</c:tab>
+					</c:tabs>
+				</c:tab>
+				<c:tab title="Map">
+
+
+					<c:entityTable entity="EntityFeature" filter="ownerType=ProductCategory&amp;ownerId=#{productCategory.id}&amp;type.id=3" autoLoad="false" var="mapEntityFeature">
+						<c:columns>
+							<c:column label="Name" value="#{mapEntityFeature.name}" width="200" />
+						</c:columns>
+					</c:entityTable>
+					<c:tabs binds="mapEntityFeature">
+						<c:tab title="Selected Feature">
+							<c:entityForm entity="EntityFeature" var="mapEntityFeature">
+								<c:inputHidden value="#{mapEntityFeature.ownerId}" default="#{productCategory.id}" />
+								<c:inputHidden value="#{mapEntityFeature.ownerType}" default="ProductCategory" />
+								<c:inputHidden value="#{mapEntityFeature.type.id}" default="3" />
+								<c:panelGrid columns="2" labelStyle="width:100px">
+									<c:inputText label="Name" value="#{mapEntityFeature.name}" />
+									<c:inputInt label="Sort Order" value="#{mapEntityFeature.sortOrder}" />
+								</c:panelGrid>
+							</c:entityForm>
+						</c:tab>
+						<c:tab title="Value">
+							<c:entityTable entity="EntityFeatureValue" filter="entityFeatureId=#{mapEntityFeature.id}" autoLoad="false" var="mapEntityFeatureValue">
+								<c:columns>
+									<c:column label="Attribute" value="#{mapEntityFeatureValue.rowAttributeName}" width="200" />
+									<c:column label="Value" value="#{mapEntityFeatureValue.value}" />
+								</c:columns>
+							</c:entityTable>
+							<c:panelGroup title="Selected Value" binds="mapEntityFeatureValue">
+								<c:entityForm entity="EntityFeatureValue" var="mapEntityFeatureValue">
+									<c:inputHidden value="#{mapEntityFeatureValue.entityFeatureId}" default="#{mapEntityFeature.id}" />
+									<c:panelGrid columns="1" labelStyle="width:100px">
+										<c:inputText label="Attribute" value="#{mapEntityFeatureValue.rowAttributeName}" />
+										<c:inputText label="Value" value="#{mapEntityFeatureValue.value}" />
+									</c:panelGrid>
+								</c:entityForm>
+							</c:panelGroup>
+						</c:tab>
+					</c:tabs>
+
+				</c:tab>
+				<c:tab title="Table">
+
+					<c:entityTable entity="EntityFeature" filter="ownerType=ProductCategory&amp;ownerId=#{productCategory.id}&amp;type.id=4" autoLoad="false" var="tableEntityFeature">
+						<c:columns>
+							<c:column label="Name" value="#{tableEntityFeature.name}" width="200" />
+						</c:columns>
+					</c:entityTable>
+					<c:tabs binds="tableEntityFeature">
+						<c:tab title="Selected Feature">
+							<c:entityForm entity="EntityFeature" var="tableEntityFeature">
+								<c:inputHidden value="#{tableEntityFeature.ownerId}" default="#{productCategory.id}" />
+								<c:inputHidden value="#{tableEntityFeature.ownerType}" default="ProductCategory" />
+								<c:inputHidden value="#{tableEntityFeature.type.id}" default="4" />
+								<c:panelGrid columns="2" labelStyle="width:100px">
+									<c:inputText label="Name" value="#{tableEntityFeature.name}" />
+									<c:inputInt label="Sort Order" value="#{tableEntityFeature.sortOrder}" />
+								</c:panelGrid>
+							</c:entityForm>
+						</c:tab>
+						<c:tab title="Value">
+							<c:entityTable entity="EntityFeatureValue" filter="entityFeatureId=#{tableEntityFeature.id}" autoLoad="false" var="tableEntityFeatureValue">
+								<c:columns>
+									<c:column label="Row Attribute" value="#{tableEntityFeatureValue.rowAttributeName}" width="200" />
+									<c:column label="Column Attribute" value="#{tableEntityFeatureValue.columnAttributeName}" width="200" />
+									<c:column label="Value" value="#{tableEntityFeatureValue.value}" />
+								</c:columns>
+							</c:entityTable>
+							<c:panelGroup title="Selected Value" binds="tableEntityFeatureValue">
+								<c:entityForm entity="EntityFeatureValue" var="tableEntityFeatureValue">
+									<c:inputHidden value="#{tableEntityFeatureValue.entityFeatureId}" default="#{tableEntityFeature.id}" />
+									<c:panelGrid columns="1" labelStyle="width:150px">
+										<c:inputText label="Row Attribute" value="#{tableEntityFeatureValue.rowAttributeName}" />
+										<c:inputText label="Column Attribute" value="#{tableEntityFeatureValue.columnAttributeName}" />
+										<c:inputText label="Value" value="#{tableEntityFeatureValue.value}" />
+									</c:panelGrid>
+								</c:entityForm>
+							</c:panelGroup>
+						</c:tab>
+					</c:tabs>
+				</c:tab>
+			</c:tabs>
+		</c:tab>
+	</c:tabs>
+</div>

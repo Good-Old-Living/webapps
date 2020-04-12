@@ -1,0 +1,20 @@
+<div id="prdSearchDropDown" xmlns:c="app.ui.faces.component"
+	xmlns:b="app.ui.faces.block">
+
+	<b:foreach entity="ProductLineItem"
+		filter="product.name=[like]#{query.product}&amp;product.isActive=Y&amp;isActive=Y&amp;orderBy=product.popularity DESC, product.orderable, sortOrder"
+		noEntityMsg="--- No products found --- ">
+		<div class="searchedPrdItem">
+			<div style="width: 67%">
+				<a
+					href="/product#{productLineItem.product.productCategory.qualifiedName}/#{productLineItem.product.brand}~#{productLineItem.product.name}/#{productLineItem.quantity} #{productLineItem.unitOfMeasure.value}">#{productLineItem.product.brand}
+					#{productLineItem.product.name}</a>
+			</div>
+			<div class="num">#{productLineItem.quantity}
+				#{productLineItem.unitOfMeasure.value}</div>
+			<div class="num">Rs #{productLineItem.price}</div>
+		</div>
+
+	</b:foreach>
+
+</div>

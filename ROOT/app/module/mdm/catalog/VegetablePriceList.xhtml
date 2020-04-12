@@ -1,0 +1,25 @@
+<div xmlns:c="app.ui.faces.component">
+
+
+	<c:panelGroup title="Upload vegetable price list from Sahaja">
+		<c:entityForm entity="VegetablePriceList">
+			<c:panelGrid>
+			   
+				<c:inputText value="#{vegetablePriceList.supplier}" label="Supplier" default="Sahaja"/>
+				<c:inputFile value="#{vegetablePriceList.csvFile}" label="CSV File" />
+			</c:panelGrid>
+		</c:entityForm>
+	</c:panelGroup>
+	
+	<script type="text/javascript">
+		(function() {
+			var eSd = EntityEventName.saved("vegetablePriceList");
+			var sdCB = function(ae) {
+				if (sys.isValid(ae)) {
+					alert(JSON.stringify(ae["payload"]));
+				}
+			}
+			eventQueue.listener(eSd, new AppEventListener(this.name, sdCB));
+		}());
+	</script>
+</div>

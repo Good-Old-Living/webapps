@@ -1,0 +1,29 @@
+<c:template src="/WEB-INF/app/template/web/Customer.xml"
+	xmlns:c="app.ui.faces.component">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<div id="custProfile">
+			<h2>Profile</h2>
+			<c:entity name="Customer" filter="userId=#{session.E}" />
+			<c:entityForm entity="Customer" name="CustomerCheckout"
+				entityId="#{customer.id}" lifeCycle="none">
+				<c:inputHidden value="#{customer.group.id}" />
+				<c:inputHidden value="#{customer.userId}" />
+				<c:panelGrid>
+
+					<c:inputText label="Name" value="#{customer.name}"
+						required="true" />
+					<c:inputText label="Email" value="#{customer.email}"
+						regExp="[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" />
+					<c:inputText label="Mobile" value="#{customer.mobile}"
+						required="true" length="10" regExp="^[0-9]+$" />
+
+				</c:panelGrid>
+
+			</c:entityForm>
+		</div>
+	</c:parameter>
+</c:template>

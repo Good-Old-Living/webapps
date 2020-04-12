@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="app.ui.faces.component" xmlns:p="app.ui.faces.page" xmlns:b="app.ui.faces.block" xmlns:a="app.ui.faces.activity">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Cache-Control"
+			content="no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0" />
+		<meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT" />
+		<link href="/faces/theme/basic/css/app.css" type="text/css" rel="stylesheet" />
+		<script src="/st/js/app.js" type="text/javascript" />
+        <script src="/faces/js/thirdparty/ckeditor/ckeditor.js"/>
+	</head>
+
+	<body>
+	
+		<div id="header">
+			<div class="appMenu">
+ 				<span class="menu" onclick="ui.page.section.attachXHtml('app/Setup.xhtml','workArea','Setup')">
+					<a class="menuLabel" href="javascript:;">Setup</a>
+				</span>
+					|
+				<span class="menu" onclick="ui.page.section.attachXHtml('app/Modules.xhtml','workArea','Modules')">
+					<a class="menuLabel" href="javascript:;">Modules</a>
+				</span>
+ 			</div>
+			
+			<div style="position:absolute;right:10px;top:5px;">
+				<a href="/security/a/logout">Logout</a>
+			
+			</div>
+		</div>
+		<p:section name="workArea" id="workArea">
+	     
+	  	</p:section>
+	</body>
+</html>

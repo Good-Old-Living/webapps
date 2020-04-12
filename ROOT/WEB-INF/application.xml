@@ -1,0 +1,26 @@
+<application name="Campus Placement Application" propertyManager="meru.application.module.core.PropertyManagerImpl">
+
+	<binding-components>
+		<binding-component class="meru.app.binding.http.HttpBindingComponent"></binding-component>
+	</binding-components>
+
+	<application-engine class="meru.app.engine.entity.EntityAppEngine"/>
+
+	<persistent-store class="meru.persistence.jpa.JPADatabaseStore">
+		<constructor-arg type="java.lang.String">ecom-domain</constructor-arg>
+	</persistent-store>
+
+	<entity-class-registry
+		class="meru.ecom.EComEntityClassRegistry">
+    </entity-class-registry>
+
+	<properties>
+		<property name="app.http.domain">localhost</property>
+		<property name="app.http.port">8080</property>
+		<property name="app.http.ssl.port">443</property>
+		<property name="app.base.url">http://localhost:8080</property>
+        <property name="ecom.product.img.home">product</property>
+        <property name="app.schedule.enabled">true</property>
+        <property name="app.id">2</property>
+	</properties>
+</application>

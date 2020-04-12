@@ -1,0 +1,127 @@
+<div xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+	<div class="invoiceTitle">Invoice</div>
+
+	<c:entity name="Enterprise" entityId="1" />
+	<c:entity name="EnterpriseAddress"
+		filter="enterpriseId=1&amp;isPrimary=Y" />
+	<div class="companyAddress">
+		<p>#{enterprise.name}</p>
+		<p>#{enterpriseAddress.address.address},
+			#{enterpriseAddress.address.area.name},
+			#{enterpriseAddress.address.city.name},
+			#{enterpriseAddress.address.state.name}
+			#{enterpriseAddress.address.country.name} -
+			#{enterpriseAddress.address.pinCode}</p>
+	</div>
+
+	<c:entity name="SalesOrder" filter="id=#{query.orderId}" />
+	<c:entity name="Customer" filter="id=#{salesOrder.customerId}" />
+	<c:entity name="SalesOrderSummary" entityId="#{query.orderId}" />
+	<div>
+
+
+		<div class="customerAddress">
+
+			<b:if condition="#{salesOrder.deliveryAddressText} == null">
+				<div>
+					<b:if
+						condition="#{salesOrder.deliveryAddress.housingComplexAddress} == null">
+						<div>
+							<p>#{salesOrder.deliveryAddress.name}</p>
+							<p> #{salesOrder.deliveryAddress.address.address},
+								#{salesOrder.deliveryAddress.address.area.name},
+								#{salesOrder.deliveryAddress.address.city.name},
+								#{salesOrder.deliveryAddress.address.state.name}
+								#{salesOrder.deliveryAddress.address.country.name} -
+								#{salesOrder.deliveryAddress.address.pinCode}</p>
+						</div>
+						<b:else>
+							<div>
+								<p>#{salesOrder.deliveryAddress.name}</p>
+								<p> 
+									#{salesOrder.deliveryAddress.housingComplexAddress.block},
+									#{salesOrder.deliveryAddress.housingComplexAddress.number},
+									#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.name},
+									#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.address},
+									#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.area.name},
+									#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.city.name},
+									#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.state.name}
+									#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.country.name}
+									-
+									#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.pinCode}</p>
+							</div>
+						</b:else>
+					</b:if>
+
+				</div>
+				<b:else>
+					<p>#{salesOrder.deliveryAddressText}</p>
+				</b:else>
+			</b:if>
+		</div>
+		<div class="invoiceInfo">
+			<table>
+				<tr>
+					<td align="right">Order No. :</td>
+					<td>#{salesOrder.orderId}</td>
+				</tr>
+				<tr>
+					<td align="right">Date :</td>
+					<td>#{salesOrder.createdOn}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="clr" />
+	</div>
+
+	<c:entityTable entity="SalesOrderLineItem"
+		filter="salesOrderId=#{salesOrder.id}" numberable="true"
+		lifeCycle="none">
+		<c:columns>
+
+			<c:column label="Product"
+				value="#{salesOrderLineItem.productLineItem.product.brand} #{salesOrderLineItem.productLineItem.product.name} #{salesOrderLineItem.productLineItem.quantity} #{salesOrderLineItem.productLineItem.unitOfMeasure.value}" />
+			<c:column label="Quantity" value="#{salesOrderLineItem.quantity}"
+				width="80" align="right" />
+			<c:column label="Price" value="#{salesOrderLineItem.unitPrice}"
+				width="80" align="right" />
+			<c:column label="Total" value="#{salesOrderLineItem.totalPrice}"
+				width="80" align="right" style="border:0" />
+		</c:columns>
+
+	</c:entityTable>
+
+
+	<div class="priceSummary">
+
+		<table cellspacing="0" cellpadding="0">
+			<tr>
+				<td align="right" class="label">Net Value</td>
+				<td align="right">#{salesOrderSummary.grandTotal}</td>
+			</tr>
+			<tr>
+				<td align="right" class="label">Delivery Charges</td>
+				<td align="right">#{salesOrderSummary.deliveryCharge}</td>
+			</tr>
+			<tr>
+				<td align="right" class="label last">Total</td>
+				<td align="right" class="last">#{salesOrderSummary.totalAmount}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="clr" />
+
+	<!--  
+    <div class="foot">
+      <div class="cName">
+           #{enterprise.name}
+       </div>
+       <div class="authSign">
+           <div class="authSignContent">
+              Authorized Signatory
+           </div>
+       </div>
+       <div class="clr"/>
+    </div>  -->
+
+</div>

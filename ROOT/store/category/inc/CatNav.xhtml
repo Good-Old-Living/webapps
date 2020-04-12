@@ -1,0 +1,3 @@
+<div xmlns:c="app.ui.faces.component">
+   <c:entityList entity="ProductCategory" title="#{productCategory.name}" selectable="false" filter="parentId=#{productCategory.id}" default="#{productCategory.name}" style="float:left;width:25%" href="#{application.root}/category#{productCategory.qualifiedName}"/> 
+</div>

@@ -1,0 +1,141 @@
+<c:template src="/WEB-INF/app/template/ECom.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<h1>Shopping Cart</h1>
+		<div class="prodNotes">
+			<p>We will attempt to provide good quality vegetables, fruits and
+				greens, but the quality and the size may vary every time.</p>
+		</div> 
+
+		<div id="shoppingCart">
+			<b:foreach entity="ShoppingCartLineItem"
+				noEntityMsg="Your shopping cart is empty">
+				<div id="cartItem#{shoppingCartLineItem.id}" class="cartItemRow">
+					<div class="cartImageCon">
+						<img src="#{shoppingCartLineItem.productLineItem.tnImage}"
+							class="cartImage" />
+					</div>
+					<div class="prodInfo">
+						<div class="prodType">
+							<c:outputText rendered="shoppingCartLineItem.product.brand != null"
+								value="#{shoppingCartLineItem.productLineItem.product.brand}" />
+							<c:outputText
+								rendered="shoppingCartLineItem.productLineItem.product.type != null"
+								value="#{shoppingCartLineItem.productLineItem.product.type.value}" />
+						</div>
+						<div class="prodTitle">
+							<a
+								href="/product#{shoppingCartLineItem.productLineItem.product.productCategory.qualifiedName}/#{shoppingCartLineItem.productLineItem.product.brand}~#{shoppingCartLineItem.productLineItem.product.name}/#{shoppingCartLineItem.productLineItem.quantity} #{shoppingCartLineItem.productLineItem.unitOfMeasure.value}">
+								#{shoppingCartLineItem.productLineItem.product.name}
+								#{shoppingCartLineItem.productLineItem.quantity}
+								#{shoppingCartLineItem.productLineItem.unitOfMeasure.value} </a>
+						</div>
+
+						<div style="margin: 8px 0">
+							<b:if
+								condition="#{shoppingCartLineItem.productLineItem.discount} == null">
+								<div class="productPrice">Rs.
+									#{shoppingCartLineItem.productLineItem.mrp}</div>
+
+								<b:else>
+									<div class="productPrice">
+										Rs.
+										<del>#{shoppingCartLineItem.productLineItem.mrp}</del>
+										#{shoppingCartLineItem.productLineItem.price} <span
+											style="margin-left: 5px">(Rs
+											#{shoppingCartLineItem.productLineItem.discount}#{shoppingCartLineItem.productLineItem.discountType.value}
+											off)</span>
+
+									</div>
+								</b:else>
+							</b:if>
+							<span style="float: right" class="productPrice">Rs
+								#{shoppingCartLineItem.totalPrice}</span>
+						</div>
+
+						<div class="buyDiv">
+							<div
+								onClick="shoppingCart.decreaseItem('#{shoppingCartLineItem.productLineItem.id}','#{shoppingCartLineItem.id}')"
+								class="rmCart buy" style="display: inline"
+								title="Remove From Bag" />
+							<input id="scItemTotal#{shoppingCartLineItem.id}" name="quantity"
+								class="qty" style="float: left; margin-right: 4px"
+								value="#{shoppingCartLineItem.quantity}"
+								onchange="shoppingCart.updateItem('#{shoppingCartLineItem.productLineItem.id}',this.value)" />
+							<div
+								onClick="shoppingCart.increaseItem('#{shoppingCartLineItem.productLineItem.id}','#{shoppingCartLineItem.id}')"
+								class="addCart buy" title="Add To Bag" />
+								<div style="padding-top: 3px">
+							<a href="javascript:void()"
+								onclick="shoppingCart.removeItem('#{shoppingCartLineItem.id}')">REMOVE</a>
+								</div>
+							<div class="clr" />
+						</div>
+						<div class="clr" />
+
+					</div>
+
+				</div>
+
+
+			</b:foreach>
+
+			<div class="clr" />
+
+			<div class="ralign">
+
+				<span class="commandButton noMargin rfloat"
+					onclick="shoppingCart.checkout(this)">Checkout</span>
+				<div class="clr" />
+
+			</div>
+
+		</div>
+
+		<c:panelGroup id="orderSummary" title="Order Summary">
+			<c:entity name="SessionShoppingCart" entityId="-1">
+				<div id="orderSummaryPanel">
+
+
+
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td class="label">Items</td>
+								<td class="value">#{sessionShoppingCart.itemCount}</td>
+							</tr>
+							<tr>
+								<td class="label">Total Price</td>
+								<td class="value">Rs #{sessionShoppingCart.subTotal}</td>
+							</tr>
+							<tr>
+								<td class="label">Delivery Charges</td>
+								<td class="value">Rs #{sessionShoppingCart.deliveryCharge}</td>
+							</tr>
+							<b:if condition="#{sessionShoppingCart.savings} != 0.0">
+								<tr>
+									<td class="label">Savings</td>
+									<td class="value">Rs #{sessionShoppingCart.savings}</td>
+								</tr>
+							</b:if>
+						</tbody>
+					</table>
+
+					<div class="grandTotal">
+						Grand Total : Rs <span id="cartGrandTotal">
+							#{sessionShoppingCart.grandTotal}</span>
+					</div>
+				</div>
+			</c:entity>
+
+			<div class="clr" />
+		</c:panelGroup>
+		<div class="clr" />
+
+
+	</c:parameter>
+</c:template>

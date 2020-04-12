@@ -1,0 +1,41 @@
+<c:template src="/WEB-INF/app/template/ECom.xml"
+	xmlns:c="app.ui.faces.component">
+
+	<c:variable name="pageTitle" value="Retail App" />
+
+	<c:parameter name="content">
+
+		<c:breadCrumb type="category" path="Search Results" />
+
+
+		<div>
+
+			<c:entityList id="prodCatNav" entity="ProductCategory"
+				title="Categories" selectable="false"
+				filter="parentId=null&amp;orderBy=sortOrder"
+				default="#{productCategory.name}" style="float:left;width:20%"
+				href="#{application.root}/category#{productCategory.qualifiedName}" />
+
+
+			<div id="prodContent">
+				<h2>Showing results for '#{query.product}'</h2>
+				<c:stackedEntityGrid id="tnGrid" entity="ProductLineItem"
+					filter="product.name=[like]#{query.product}&amp;product.isActive=Y&amp;isActive=Y&amp;orderBy=product.popularity DESC, product.orderable, sortOrder"
+					groupBy="product"
+					unitExpression="#{quantity} #{unitOfMeasure.value} - Rs #{price}">
+					<c:include src="/store/category/inc/ProductTN.xhtml" />
+				</c:stackedEntityGrid>
+			</div>
+			<div class="clr"></div>
+		</div>
+
+		<script type="text/javascript">
+			(function() {
+				initBuyButtons();
+			})();
+		</script>
+
+
+	</c:parameter>
+
+</c:template>

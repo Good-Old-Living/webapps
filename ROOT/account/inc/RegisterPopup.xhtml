@@ -1,0 +1,72 @@
+
+<c:popup id="regPopup" class="accountPopup" title="Signup"
+	xmlns:c="app.ui.faces.component">
+	<div id="registrationErr" style="color: red"></div>
+
+	<form id="verMobForm" method="post" class="mobVerForm"
+		target="registerIframe" action="/a/verifyMobile">
+		<div>
+			<label for="em">Mobile</label> <input id="otpMobile" name="mobile"
+				type="text" />
+		</div>
+		<div class="centeredDiv">
+			<input type="submit" value="Send OTP" class="formSubmitInput" />
+		</div>
+	</form>
+
+	<div id="registerForm" style="display: none; margin: 0; padding: 0">
+
+		<form method="post" class="accountForm" target="registerIframe"
+			action="/a/register" >
+			<c:inputHidden name="roleId" value="#{query.r}" />
+
+			<div>
+				<label for="em">Mobile</label> <input id="regMobile" name="mobile"
+					type="text" readonly="readonly" />
+			</div>
+			<div>
+				<label for="em">OTP</label> <input id="otpInput" name="otp" type="text" />
+				<a href="javascript:;" onClick="account.resendOTP()" style="margin-top:3px;float:right">Resend OTP</a>
+			</div>
+
+			<div>
+				<label for="em">Name</label> <input id="em" name="name" type="text" />
+			</div>
+			<div>
+				<label for="pw">Password</label> <input type="password" id="pw"
+					name="password" />
+			</div>
+			<div>
+				<label for="rpw">Repeat Password</label> <input type="password"
+					id="rpw" name="rpassword" />
+			</div>
+
+           
+			<div class="centeredDiv">
+				<input type="submit" value="Register" class="formSubmitInput" />
+			</div>
+		</form>
+		<div class="foot">
+		<a href="javascript:;" onclick="account.changeRegMobile()">Change the mobile number?</a>
+	</div>	
+	</div>
+	<iframe name="registerIframe" width="0" height="0"
+		style="visibility: hidden;"></iframe>
+		
+	
+	<div class="foot">
+		<a href="javascript:;" onclick="regUser()">Already a registered
+			user?</a>
+	</div>
+	
+
+	<script type="text/javascript">
+		function regUser() {
+			ui.popup.closeAll();
+			$("#loginLink").click();
+		}
+		
+	</script>
+
+</c:popup>
+

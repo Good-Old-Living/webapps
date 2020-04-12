@@ -1,0 +1,8 @@
+<c:splitPane xmlns:c="app.ui.faces.component" class="navArea">
+	<c:panelGroup title="Modules" panelContentStyle="border:0">
+		<c:entityTree entity="AppHierarchicalEntity" filter="type=app-module-menu" hideRoot="true" 
+		   onItemClick="ui.page.section.attachXHtml('#{hierarchical.action}','contentArea','#{hierarchical.name}')"/>
+	</c:panelGroup>
+	<div id="contentArea">
+	</div>	
+</c:splitPane>

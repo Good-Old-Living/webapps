@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="app.ui.faces.component" xmlns:p="app.ui.faces.page" xmlns:b="app.ui.faces.block" xmlns:a="app.ui.faces.activity">
+
+	<c:include src="/WEB-INF/app/template/web/inc//HtmlHead.xhtml"/>
+
+	<body>
+	  <div id="page" class="detPage">
+	       <c:include src="/WEB-INF/app/template/web/inc//Header.xhtml"/>
+	       
+	       <div id="customerHome">
+	          <div id="customerNav">
+	             <c:include src="/customer/inc/Nav.xhtml"/>
+	          </div>
+	          <div id="customerContent">
+	             <c:parameter name="content"/>
+	          </div>
+	          <div class="clr"/>
+	       </div>
+           <c:include src="/WEB-INF/app/template/web/inc//Footer.xhtml"/>
+       </div>
+           
+	</body>
+</html>

@@ -1,0 +1,21 @@
+<c:template src="/WEB-INF/app/template/web/Account.xml" xmlns:c="app.ui.faces.component">
+
+	<c:variable name="pageTitle" value="Retail App" />
+	<c:parameter name="htmlHead">
+       <style>
+         .accPanel {
+            width:500px;
+         }
+         .accPanel form label {
+           width:120px;
+         }
+       </style>
+    </c:parameter>
+	
+	<c:parameter name="content">
+
+		<c:include src="/account/inc/RegisterPage.xhtml" />
+
+	</c:parameter>
+
+</c:template>

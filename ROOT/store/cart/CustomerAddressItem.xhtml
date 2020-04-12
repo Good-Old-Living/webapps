@@ -1,0 +1,11 @@
+<div xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:entity name="Customer" filter="userId=#{session.E}" />
+	<b:foreach entity="CustomerAddress" filter="customerId=#{customer.id}">
+		<c:include src="/store/cart/inc/AddressRadio.xhtml" />
+	</b:foreach>
+
+
+	<div class="clr" />
+
+</div>

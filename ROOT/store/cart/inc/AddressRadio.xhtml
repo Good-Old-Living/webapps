@@ -1,0 +1,50 @@
+
+
+<div id="dal#{customerAddress.id}" addressId="#{customerAddress.id}"
+	class="delAddList" xmlns:c="app.ui.faces.component"
+	xmlns:b="app.ui.faces.block">
+	<div class="addListItemRadio">
+		<input type="radio" name="deliveryAddress"
+			value="#{customerAddress.id}" id="add-#{customerAddress.id}"
+			onclick="customerAddressListener.onAddressSelect(this)" />
+	</div>
+	<div class="addListItem">
+		<div id="bpAddress-#{customerAddress.id}">
+			<div>
+				<b>#{customerAddress.name}, #{customerAddress.mobile}</b>
+			</div>
+			<b:if condition="#{customerAddress.housingComplexAddress} == null">
+				<div>#{customerAddress.address.address}</div>
+				<div>#{customerAddress.address.area.name}</div>
+				<div>#{customerAddress.address.city.name}</div>
+				<div>#{customerAddress.address.state.name}</div>
+				<div>#{customerAddress.address.country.name}</div>
+				<div>#{customerAddress.address.pinCode}</div>
+				<b:else>
+					<div>#{customerAddress.housingComplexAddress.block} -
+						#{customerAddress.housingComplexAddress.number},
+						#{customerAddress.housingComplexAddress.housingComplex.name}</div>
+					<div>#{customerAddress.housingComplexAddress.housingComplex.address.area.name}</div>
+					<div>#{customerAddress.housingComplexAddress.housingComplex.address.city.name}</div>
+					<div>#{customerAddress.housingComplexAddress.housingComplex.address.state.name}</div>
+					<div>#{customerAddress.housingComplexAddress.housingComplex.address.country.name}</div>
+					<div>#{customerAddress.housingComplexAddress.housingComplex.address.pinCode}</div>
+				</b:else>
+			</b:if>
+		</div>
+		<p>
+		  <b:if condition="#{customerAddress.housingComplexAddress} == null">
+			<c:outputLink label="Edit" value="javascript:;"
+				onclick="customerAddressListener.editDialog(document.getElementById('dal#{customerAddress.id}').getAttribute('addressId'))" />
+				<b:else>
+				  <c:outputLink label="Edit" value="javascript:;"
+				onclick="customerAddressListener.editDialog(document.getElementById('dal#{customerAddress.id}').getAttribute('addressId'), true)" />
+				</b:else>
+		 </b:if>
+		 		
+		</p>
+	</div>
+
+</div>
+
+

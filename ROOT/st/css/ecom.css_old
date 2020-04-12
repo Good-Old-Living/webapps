@@ -1,0 +1,666 @@
+body {
+	min-width: 950px;
+	font: 'Roboto Slab', tahoma, verdana, arial, sans-serif;
+}
+
+input, textarea, select {
+	border: 1px #cccccc solid;
+	box-shadow: none;
+}
+
+
+#page {
+	width: 978px;
+	margin: 0 auto;
+}
+
+#header {
+	position: relative;
+}
+
+#header .top {
+	margin: 5px 0;
+}
+
+#header .links {
+	float: right;
+	text-align: right;
+}
+
+#header #links a {
+	color: #053f68;
+}
+
+#logo {
+	margin: 10px 0 60px;
+}
+
+#footer {
+	margin-top: 10px;
+	/* 	border-top: 1px #CCCCCC solid;
+	border-bottom: 1px #CCCCCC solid;
+	padding-bottom: 2px;
+ */
+}
+
+#footer .inner {
+	width: 100%;
+}
+
+#footer .sec {
+	width: 20%;
+	float: left;
+}
+
+#footer li {
+	line-height: 22px;
+}
+
+#footer .cr {
+	/* border-top: 1px #CCCCCC solid; */
+	margin: 5px 0;
+	padding-top: 5px;
+	font-size: 75%;
+}
+
+.pageContent {
+	margin: 20px 0;
+}
+
+.pageContent p {
+	text-align: justify;
+}
+
+.pageContent input,.pageContent textarea {
+	border: 1px #cccccc solid;
+	box-shadow: none;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.pageContent button {
+	float: right;
+}
+
+.pageContent .contact {
+	float: left;
+	width: 48%;
+	padding: 50px 0;
+	border-top: 0px #cccccc solid;
+}
+
+.pageContent .contact p {
+   margin:2px 0;
+   padding:0;	
+}
+
+.aboutContent {
+	margin: 50px 0;
+	padding: 40px 0;
+	position: relative;
+	color: #ffffff;
+}
+
+.aboutContent .black {
+	position: absolute;
+	top: 0;
+	height: 350px;
+	left: -402px;
+	width: 1683px;
+	background-color: #000000;
+	z-index: -1;
+}
+
+.aboutContent .aboutSubTitle {
+	font-size: 130%;
+	font-style: italic;
+	padding-bottom: 10px;
+	margin-bottom: 30px;
+	border-bottom: 1px #cccccc solid;
+}
+
+.searchBoxHolder {
+	margin: 5px 0 0 20px;
+	float: left;
+	position: relative;
+}
+
+.searchBox {
+	position: relative;
+	width: 480px;
+	height: 30px;
+	padding: 2px 0;
+	box-shadow: 0 0 2px #919191 inset;
+	border-radius: 5px;
+	border: 1px solid #919191;
+}
+
+.searchBox .box {
+	position: absolute;
+	width: 385px;
+	color: #999;
+	font-size: 75%;
+	height: 20px;
+	left: 4px;
+	top: 4px;
+	padding: 5px 0 0;
+}
+
+.sprite {
+	background: url("/ecom/img/new_indiahomesprite18.png") no-repeat scroll
+		0 0 rgba(0, 0, 0, 0);
+}
+
+.searchBox .glass {
+	width: 14px;
+	background-position: -30px -237px;
+	display: inline-block;
+	height: 15px;
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+.searchBox .searchField {
+	width: 390px;
+	border: 0 none;
+	height: inherit;
+	padding: 1px 0 0 3px;
+	vertical-align: middle;
+	float: left;
+	line-height: 30px;
+}
+
+.searchBox .searchButton {
+	width: 84px;
+	color: #ffffff;
+	font-weight: bold;
+	height: inherit;
+	background: none repeat scroll 0 0 #044b80;
+	border: 1px solid #759d2c;
+	border-radius: 5px;
+	cursor: pointer;
+	vertical-align: middle;
+	float: left;
+}
+
+#appMenu {
+	margin-top: 3px;
+	padding: 5px 0;
+	border-top: 1px #cccccc solid;
+	border-bottom: 1px #cccccc solid;
+}
+
+#appMenu .menuLabel {
+	margin: 0 20px;
+	font-size: 120%;
+	text-transform: uppercase;
+}
+
+#appMenu .menu ul {
+	list-style: none;
+	position: absolute;
+	display: none;
+	top: 5px;
+	width: 200px;
+	border: 1px #053f68 solid;
+	z-index: 10;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.5)
+}
+
+#appMenu .menu ul li ul {
+	margin-left: 70px;
+	z-index: 10;
+}
+
+#appMenu .menu:hover>ul {
+	display: block;
+}
+
+#appMenu .menu ul li:hover>ul {
+	display: block;
+	z-index: 10;
+}
+
+#appMenu .menu>ul>li {
+	display: block;
+	float: none;
+}
+
+.imageBanner {
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.homeConRight {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 200px;
+}
+
+.todayPriceDiv {
+	font-size: 125%;
+}
+
+.todayPrice {
+	background-color: #ffffff;
+	border: 1px #cccccc solid;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	font-size: 140%;
+	text-align: center;
+}
+
+.customDesignDiv {
+	margin-top: 20px;
+	background-color: #ffffff;
+	border: 1px #cccccc solid;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	font-size: 140%;
+}
+
+#customerHome {
+	position: relative;
+}
+
+#customerNav {
+	width: 250px;
+	float: left;
+}
+
+#customerContent {
+	margin-left: 5px;
+	float: left;
+	width: 680px;
+}
+
+.panelGroup .panelHead {
+	background-color: #ffffff;
+	background-image: none;
+	border: 0;
+	border-bottom: 1px #f1f1f1 solid;
+}
+
+.panelGroup .panelContent {
+	border: 0;
+}
+
+.cartIconCon {
+	margin: 15px 0 10px;
+	position: relative;
+	text-align: right;
+	float: right;
+}
+
+.cartIcon {
+	top: 0;
+	width: 48px;
+	height: 43px;
+	margin: -15px 2px 0;
+	background: url("../../img/cart.png") no-repeat transparent;
+	display: inline-block;
+	margin-left: 8px;
+	vertical-align: middle;
+}
+
+.shoppingCartTable .gridRows tr.even {
+	background: #ffffff;
+	border-bottom: 1px #efefef solid;
+}
+
+.shoppingCartTable .gridRows tr:hover {
+	background: #ffffff;
+}
+
+.prodInfo {
+	margin-left: 40px;
+	float: left;
+}
+
+.prdName {
+	font-size: 150%;
+	font-weight: bold;
+	margin: 10px 0;
+}
+
+.prdShortDesc {
+	font-size: 120%;
+	font-style: italic;
+}
+
+.prdPrice {
+	font-size: 160%;
+	margin: 10px 0;
+	font-weight: bold;
+}
+
+.prdPriceAttr {
+	width: 100px;
+	float: left;
+	line-height: 25px;
+}
+
+.prdPriceAttrVal {
+	float: left;
+	border-left: 1px #efefef solid;
+	padding-left: 10px;
+	line-height: 25px;
+}
+
+.buy {
+	position: relative;
+}
+
+.buyButton {
+	font-size: 120%;
+	height: 35px;
+	width: 70px;
+}
+
+.buyIn {
+	padding: 10px 0;
+}
+
+.buy .minus,.buy .plus {
+	float: left;
+	width: 24px;
+	height: 24px;
+	margin-top: 3px;
+	cursor: pointer;
+}
+
+.buy .gty {
+	width: 50px;
+	float: left;
+	height: 24px;
+}
+
+.buy .minus {
+	visibility: hidden;
+	background: url("/ecom/img/minus.gif") no-repeat;
+}
+
+.buy .plus {
+	background: url("/ecom/img/plus.gif") no-repeat;
+}
+
+.commandButton {
+	color: #ffffff;
+	background-color: #1e4664;
+}
+
+.invoice {
+	margin: 20px auto;
+	width: 780px;
+	border: 2px #000000 solid;
+	color: #000000;
+}
+
+.invoice hr {
+	color: #000000;
+	border: 1px #000000 solid;
+	line-height: 2px;
+	margin: 0;
+	padding: 0;
+}
+
+.invoice p {
+	margin: 2px 0;
+}
+
+.invoice .invoiceTitle {
+	text-align: center;
+	font-size: 16pt;
+	font-weight: bold;
+	line-height: 25pt;
+	margin: 10px 0;
+}
+
+.invoice .companyAddress {
+	padding-left: 10px;
+	border-bottom: 2px #000000 solid;
+}
+
+.invoice .customerAddress {
+	margin-left: 10px;
+	width: 600px;
+	display: inline-block;
+	float: left;
+}
+
+.invoice .invoiceInfo {
+	padding-left: 10px;
+	display: inline-block;
+	float: left;
+	border-left: 2px #000000 solid;
+}
+
+.invoice .dataTable .columns {
+	margin: 0;
+	padding: 0;
+	border-top: 2px #000000 solid;
+	border-bottom: 2px #000000 solid;
+}
+
+.invoice .dataTable .columns th,.invoice .dataTable td {
+	border-right: 2px #000000 solid;
+}
+
+.invoice .dataTable .gridContent {
+	border-bottom: 2px #000000 solid;
+}
+
+.invoice .dataTable tr.even {
+	background-color: #ffffff;
+}
+
+.invoice .priceSummary {
+	float: right;
+}
+
+.invoice .priceSummary td {
+	border-left: 2px #000000 solid;
+	border-bottom: 2px #000000 solid;
+	padding: 5px;
+	width: 80px;
+}
+
+.invoice .priceSummary td.last {
+	border-bottom: 0;
+}
+
+.invoice .foot {
+	border-top: 2px #000000 solid;
+}
+
+.invoice .foot .cName {
+	padding: 10px;
+	float: left;
+}
+
+.invoice .foot .authSign {
+	position: relative;
+	float: right;
+	width: 350px;
+	height: 100px;
+	border-left: 2px #000000 solid;
+	text-align: center;
+}
+
+.invoice .foot .authSignContent {
+	position: absolute;
+	bottom: 5px;
+	left: 110px;
+}
+
+.jssort07 .i {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 99px;
+	height: 66px;
+	filter: alpha(opacity = 80);
+	opacity: .8;
+}
+
+.jssort07 .p:hover .i,.jssort07 .pav .i {
+	filter: alpha(opacity = 100);
+	opacity: 1;
+}
+
+.jssort07 .o {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 97px;
+	height: 64px;
+	border: 1px solid #000;
+	transition: border-color .6s;
+	-moz-transition: border-color .6s;
+	-webkit-transition: border-color .6s;
+	-o-transition: border-color .6s;
+}
+
+* html .jssort07 .o {
+	/* ie quirks mode adjust */
+	width /**/: 99px;
+	height /**/: 66px;
+}
+
+.jssort07 .pav .o,.jssort07 .p:hover .o {
+	border-color: #fff;
+}
+
+.jssort07 .pav:hover .o {
+	border-color: #0099FF;
+}
+
+.jssort07 .p:hover .o {
+	transition: none;
+	-moz-transition: none;
+	-webkit-transition: none;
+	-o-transition: none;
+}
+
+.jssora11l,.jssora11r,.jssora11ldn,.jssora11rdn {
+	position: absolute;
+	cursor: pointer;
+	display: block;
+	background: url(/faces/js/thirdparty/jquery/Jssor.Slider/img/a11.png)
+		no-repeat;
+	overflow: hidden;
+}
+
+.jssora11l {
+	background-position: -11px -41px;
+}
+
+.jssora11r {
+	background-position: -71px -41px;
+}
+
+.jssora11l:hover {
+	background-position: -131px -41px;
+}
+
+.jssora11r:hover {
+	background-position: -191px -41px;
+}
+
+.jssora11ldn {
+	background-position: -251px -41px;
+}
+
+.jssora11rdn {
+	background-position: -311px -41px;
+}
+
+.imageGallery {
+	position: relative;
+	width: 300px;
+	height: 401px;
+	overflow: hidden;
+}
+
+.imageGallery .loading {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.imageGallery .loading .divIn {
+	filter: alpha(opacity = 70);
+	opacity: 0.7;
+	position: absolute;
+	display: block;
+	background-color: #000;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.imageGallery .loading .img {
+	position: absolute;
+	display: block;
+	background: url(../img/loading.gif) no-repeat center center;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.imageGallery .imgContainer {
+	cursor: move;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 300px;
+	height: 300px;
+	overflow: hidden;
+}
+
+.imageGallery .thumbnail {
+	position: absolute;
+	width: 300px;
+	height: 100px;
+	left: 0px;
+	bottom: 0px;
+	overflow: hidden;
+}
+
+.imageGallery .thumbnailDiv {
+	background-color: #000;
+	filter: alpha(opacity = 30);
+	opacity: .3;
+	width: 100%;
+	height: 100%;
+}
+
+.zoomContainer {
+	
+}
+
+.dialog {
+	background-color: #CCCCCC;
+}
+
+.dataTable .columns {
+	background-image: none;
+	border-color: #cccccc #cccccc #cccccc;
+	border-style: solid none solid none;
+	border-width: 2px 0 2px 0;
+	padding: 5px 1px;
+	font-size: 120%;
+}
+
+.dataTable .columns th,.dataTable td {
+	border: 0;
+}
+
+.dataTable .gridContent {
+	max-height: 2500px;
+	border-color: #cccccc #cccccc #cccccc;
+	border-style: none none solid;
+	border-width: 0 0 2px 0;
+}

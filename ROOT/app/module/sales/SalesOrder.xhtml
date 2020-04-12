@@ -1,0 +1,235 @@
+<div xmlns:c="app.ui.faces.component">
+
+	<c:entity name="ProductCategory" entityId="#{query.id}" />
+
+	<h1>Sales Orders</h1>
+
+	<c:panelGrid columns="2">
+	    <c:inputText id="custName" label="Name" value="#{salesOrder.deliveryAddress.name}"/>
+		<c:selectOneEntityMenu id="soStatusSelect" label="State"
+			value="#{salesOrder.state.status}" entity="AppEntityState"
+			filter="entity=SalesOrder"/>
+			
+		<button onclick="searchSalesOrders()">Search</button>
+	</c:panelGrid>
+
+
+	<c:entityTable id="salesOrderTable" entity="SalesOrder"
+		filter="state.code=1&amp;orderBy=createdOn desc, orderId desc" lifeCycle="none">
+		<!-- <c:filters>
+			<c:filter value="#{salesOrder.state.status}" label="Status" />
+		</c:filters> -->
+		<c:columns>
+			<c:column value="#{salesOrder.orderId}" label="Order No." width="120" />
+			<c:column value="#{salesOrder.deliveryAddressText}" label="Address"
+				width="190" />
+			<c:column value="#{salesOrder.deliveryAddress.name}" label="Name"
+				width="150" />
+			<c:column value="#{salesOrder.deliveryAddress.address.area.name}"
+				label="Location" width="150" />
+			<c:column value="#{salesOrder.createdOn}" label="Placed On"
+				width="140" />
+			<c:column value="#{salesOrder.paymentReceived}" label="Is Paid?"
+				width="50" />
+			<c:column value="#{salesOrder.state.status}" label="State" />
+
+		</c:columns>
+	</c:entityTable>
+	<c:tabs binds="salesOrder">
+		<c:tab title="SalesOrder">
+			<c:entityForm id="salesOrderForm" entity="SalesOrder"
+				lifeCycle="none">
+				<c:inputHidden value="#{salesOrder.orderId}" />
+				<c:inputHidden value="#{salesOrder.customerId}" />
+				<c:inputHidden value="#{salesOrder.transactionId}" />
+				<c:inputHidden value="#{salesOrder.sessionId}" />
+				<c:inputHidden value="#{salesOrder.deliveryAddress.id}" />
+				<c:inputHidden value="#{salesOrder.createdOn}" />
+				<c:inputHidden value="#{salesOrder.paymentMethod.id}" />
+				<c:inputHidden value="#{salesOrder.amount}" />
+				<c:inputHidden value="#{salesOrder.code}" />
+				<div style="margin: 10px 0 0 5px">
+					<a href="javascript:;" onclick="printInvoice()">Print Invoice</a>
+				</div>
+				<c:panelGrid>
+					<c:panelGridSection title="Order Information" columns="3">
+						<c:inputText label="Total Amount" value="#{salesOrder.amount}" />
+						<c:selectBooleanCheckBox label="Is Paid"
+							value="#{salesOrder.paymentReceived}" />
+						<c:inputTextarea label="Delivery Instructions"
+							value="#{salesOrder.deliveryInstructions}" />
+						<c:selectOneEntityMenu label="State"
+							value="#{salesOrder.state.status}" entity="AppEntityState"
+							filter="entity=SalesOrder" />
+					</c:panelGridSection>
+					<c:panelGridSection title="Customer Information" columns="3">
+						<c:inputTextarea label="Delivery Address"
+							value="#{salesOrder.deliveryAddressText}" />
+						<c:inputText label="Name"
+							value="#{salesOrder.deliveryAddress.name}" />
+						<c:inputText label="Mobile"
+							value="#{salesOrder.deliveryAddress.mobile}" required="true" />
+						<c:inputText label="Alternate Mobile"
+							value="#{salesOrder.deliveryAddress.altPhone}" />
+					</c:panelGridSection>
+					<c:panelGridSection title="Delivery Address - Hoousing Complex"
+						columns="3">
+						<c:inputText label="Name"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.name}"
+							req="false" />
+						<c:inputText label="Block"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.block}"
+							req="false" />
+						<c:inputText label="Flat Number"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.number}"
+							req="false" />
+						<c:inputText label="Address1"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.address}"
+							req="false" />
+						<c:inputText label="Landmark"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.landmark}"
+							req="false" />
+						<c:inputText label="City"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.city.name}"
+							req="false" />
+						<c:inputText label="State"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.state.name}"
+							req="false" />
+						<c:inputText label="Country"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.country.name}"
+							req="false" />
+						<c:inputText label="Pin"
+							value="#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.pinCode}"
+							req="false" />
+					</c:panelGridSection>
+					<c:panelGridSection title="Delivery Address" columns="3">
+						<c:inputText label="Address1"
+							value="#{salesOrder.deliveryAddress.address.address}" req="false" />
+						<c:inputText label="Landmark"
+							value="#{salesOrder.deliveryAddress.address.landmark}"
+							req="false" />
+						<c:inputText label="City"
+							value="#{salesOrder.deliveryAddress.address.city.name}"
+							req="false" />
+						<c:inputText label="State"
+							value="#{salesOrder.deliveryAddress.address.state.name}"
+							req="false" />
+						<c:inputText label="Country"
+							value="#{salesOrder.deliveryAddress.address.country.name}"
+							req="false" />
+						<c:inputText label="Pin"
+							value="#{salesOrder.deliveryAddress.address.pinCode}" req="false" />
+					</c:panelGridSection>
+				</c:panelGrid>
+			</c:entityForm>
+		</c:tab>
+		<!-- 		<c:tab title="Customer">
+			<c:entityForm entity="SalesOrder" lifeCycle="none">
+
+				<c:panelGrid>
+					<c:panelGridSection title="Personal Information" columns="3">
+						<c:inputText label="Name"
+							value="#{salesOrder.deliveryAddress.name}" />
+						<c:inputText label="Mobile"
+							value="#{salesOrder.deliveryAddress.mobile}" required="true" />
+						<c:inputText label="Alternate Mobile"
+							value="#{salesOrder.deliveryAddress.altPhone}" />
+					</c:panelGridSection>
+					<c:panelGridSection title="Address" columns="3">
+						<c:inputText label="Address1"
+							value="#{salesOrder.deliveryAddress.address.address}" />
+						<c:inputText label="Landmark"
+							value="#{salesOrder.deliveryAddress.address.landmark}" />
+						<c:inputText label="City"
+							value="#{salesOrder.deliveryAddress.address.city.name}" />
+						<c:inputText label="State"
+							value="#{salesOrder.deliveryAddress.address.state.name}" />
+						<c:inputText label="Country"
+							value="#{salesOrder.deliveryAddress.address.country.name}" />
+						<c:inputText label="Pin"
+							value="#{salesOrder.deliveryAddress.address.pinCode}" />
+					</c:panelGridSection>
+				</c:panelGrid>
+			</c:entityForm>
+		</c:tab>  -->
+		<c:tab title="Line Items">
+			<c:entityTable entity="SalesOrderLineItem"
+				filter="salesOrderId=#{salesOrder.id}" lifeCycle="c"
+				autoLoad="false">
+				<c:columns>
+					<c:column label="Product"
+						value="#{salesOrderLineItem.productLineItem.product.brand} #{salesOrderLineItem.productLineItem.product.name} #{salesOrderLineItem.productLineItem.quantity} #{salesOrderLineItem.productLineItem.unitOfMeasure.value}"
+						width="250" sortable="true" />
+					<c:column label="Quantity" value="#{salesOrderLineItem.quantity}"
+						width="70" sortable="true" />
+					<c:column label="Price" value="#{salesOrderLineItem.unitMrp}"
+						width="70" />
+					<c:column label="Price" value="#{salesOrderLineItem.unitPrice}"
+						width="70" />
+					<!--  <c:column label="Your Price"
+						value="#{salesOrderLineItem.unitPrice}" width="70" />  -->
+					<c:column label="Total Price"
+						value="#{salesOrderLineItem.totalPrice}" width="70" />
+				</c:columns>
+			</c:entityTable>
+			<c:panelGroup binds="salesOrderLineItem">
+				<c:entityForm entity="SalesOrderLineItem">
+					<c:panelGrid columns="2">
+						<c:inputText label="Item Id"
+							value="#{salesOrderLineItem.productLineItem.id}" />
+						<c:inputText label="Order Id"
+							value="#{salesOrderLineItem.salesOrderId}" />
+						<c:inputText label="Product Name"
+							value="#{salesOrderLineItem.productLineItem.product.name}" />
+						<c:inputText label="Quantity"
+							value="#{salesOrderLineItem.quantity}" />
+						<c:inputText label="Unit MRP"
+							value="#{salesOrderLineItem.unitMrp}" />
+						<c:inputText label="Unit Price"
+							value="#{salesOrderLineItem.unitPrice}" />
+						<c:inputText label="Discount"
+							value="#{salesOrderLineItem.discount}" />
+						<c:selectOneEntityMenu
+							value="#{salesOrderLineItem.discountType.value}" req="false"
+							label="Discount Type" entity="PropertyGroup"
+							filter="name=discount-type" />
+						<c:inputText label="Tax Rate"
+							value="#{salesOrderLineItem.taxRate}" />
+						<c:inputText label="Toal Price"
+							value="#{salesOrderLineItem.totalPrice}" />
+					</c:panelGrid>
+				</c:entityForm>
+			</c:panelGroup>
+		</c:tab>
+	</c:tabs>
+
+	<iframe id="printFrame" name="printFrame" width="0" height="0"
+		style="border: 0"></iframe>
+	<script type="text/javascript">
+	
+		function printInvoice() {
+			var orderId = document.getElementById("salesOrderForm")["salesOrder.id"].value;
+			window.open("/app/module/sales/PrintInvoice.xhtml?orderId="
+					+ orderId);
+		}
+		
+		
+		function searchSalesOrders() {
+			
+			var n = document.getElementById("custName");
+			var s = document.getElementById("soStatusSelect");
+			var code = s.options[s.selectedIndex].value;
+			var t = document.getElementById("salesOrderTable");
+			var f = "";
+
+			if (sys.isValid(n.value)) {
+				f = "deliveryAddress.name=%5Blike%5D"+n.value+"&amp;";
+			}
+			if (sys.isValid(code)) {
+			  f = f+"state.id="+code+"&amp;";
+			}
+			var f = f+"orderBy=createdOn desc, orderId desc";
+			t.uiComp.load(f);
+		}
+	</script>
+</div>

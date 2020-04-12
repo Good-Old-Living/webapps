@@ -1,0 +1,42 @@
+<div id="header" xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<div id="links">
+	    <span><a href="#{application.root}">Home</a></span>&amp;nbsp; | &amp;nbsp;
+		<span>Customer Care - 1800-102-0103</span>&amp;nbsp; | &amp;nbsp;
+		<b:if condition="#{session.E} == null">
+			<!-- <c:popupLink href="/account/login" src="/account/inc/LoginPopup.xhtml" label="Login"/> &amp;nbsp; | &amp;nbsp; 
+			<c:popupLink href="/account/register" src="/account/inc/RegisterPopup.xhtml?a=1&amp;r=3" label="Register"/> -->
+
+			<c:outputLink value="/account/login.xhtml?a=saj.com" label="Login" /> &amp;nbsp; | &amp;nbsp; 
+			<c:outputLink value="/account/register.xhtml?a=saj.com&amp;r=3" label="Register" />
+
+			<b:else>
+
+				<c:entity name="Customer" filter="userId=#{session.E}" />
+				<a href="#{application.root}/customer"><c:outputText value="#{customer.name}" /></a> | 
+				<a href="/account/a/logout?a=#{application.root}">Logout</a>
+			</b:else>
+		</b:if>
+	</div>
+
+
+   <div id="logo">
+		<a href="#{application.root}" style="float: left"> 
+		<!-- <img src="#{application.root}/img/logo.png"/> -->
+			<div style="font-size: 30px;">
+				<span>Silver Auro Jewels</span>
+			</div>
+		</a>
+
+		<div class="searchBoxHolder">
+			<c:include src="WEB-INF/web/inc/SearchBox.xhtml" />
+		</div>
+
+        <div class="cartIconCon">
+			<a href="#{application.root}/store/cart"><span class="cartIcon"></span> Cart (<span class="scCount">0</span>) </a>
+		</div>
+        <div class="clr"/>
+	</div>
+	<c:entityMenu entity="ProductCategory" href="category#{hierarchical.qualifiedName}" />
+ 	
+</div>

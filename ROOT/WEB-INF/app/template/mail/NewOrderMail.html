@@ -1,0 +1,39 @@
+<html>
+<body>
+  <p><em>Dear #{salesOrder.deliveryAddress.name},</em></p> 
+  <p>Thank you for placing your order with paaril.com. The order will be delivered at the following address</p>
+  <br/>
+  
+  <div>#{salesOrder.deliveryAddressText}</div>
+  
+  <div>#{salesOrder.deliveryAddress.address.address}, </div>
+  <div>#{salesOrder.deliveryAddress.address.area.name}, </div>
+  <div>#{salesOrder.deliveryAddress.address.city.name},</div> 
+  <div>#{salesOrder.deliveryAddress.address.state.name},</div> 
+  <div>#{salesOrder.deliveryAddress.address.country.name} - #{salesOrder.deliveryAddress.address.pinCode}</div> 
+  <br/>
+  <p>Please refer the Order No. '#{salesOrder.orderId}' for further conversations</p>
+  <br/>
+  <h2>Your order details:</h2>
+  
+  <table border="1" style="width:100%">
+    <thead>
+      <tr>
+        <th width="40">No.</th>
+        <th>Product</th>
+        <th width="50">Quantity</th>
+        <th width="50">MRP</th>
+        <th width="50">Price</th>
+        <th width="50">Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      #{orderItems.data}
+    </tbody>
+  </table>
+  
+  <br/>
+  <p>Warm Regards</p>
+  <p>Paaril.com</p>
+  </body>
+</html>

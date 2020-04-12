@@ -1,0 +1,28 @@
+.accountForm div {
+	margin: 10px;
+}
+
+.accountForm label {
+	display: block;
+}
+
+.accountForm input[type=text], .accountForm input[type=password] {
+	width: 100%;
+}
+
+.accountPopup {
+	background-color: #FFFFFF;
+	width:300px;
+}
+
+.accountPopup .popupHead {
+	border-bottom: 1px #CCCCCC solid;
+}
+
+.accountPopup .popupHead .title {
+	color: #000000;
+}
+
+.centeredDiv {
+	text-align: center;
+}

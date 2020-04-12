@@ -1,0 +1,155 @@
+<c:template src="/WEB-INF/app/template/web/Customer.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<c:entity name="SalesOrder" filter="id=#{query.no}" />
+
+		<h2>My Order - #{salesOrder.orderId}</h2>
+
+		<div id="shoppingCart">
+			<b:foreach entity="SalesOrderLineItem"
+				filter="salesOrderId=#{salesOrder.id}">
+				<div id="soir#{salesOrderLineItem.id}" class="cartItemRow">
+					<div class="cartImageCon">
+						<img src="#{salesOrderLineItem.productLineItem.tnImage}"
+							class="cartImage" />
+					</div>
+					<div class="prodInfo">
+						<c:outputText
+							rendered="salesOrderLineItem.productLineItem.product.type != null"
+							value="#{salesOrderLineItem.productLineItem.product.type.value}" />
+						<div class="prodTitle">
+							<a id="soi#{salesOrderLineItem.id}"
+								href="/product#{salesOrderLineItem.productLineItem.product.productCategory.qualifiedName}/#{salesOrderLineItem.productLineItem.product.brand}~#{salesOrderLineItem.productLineItem.product.name}/#{salesOrderLineItem.productLineItem.quantity} #{salesOrderLineItem.productLineItem.unitOfMeasure.value}">
+								#{salesOrderLineItem.productLineItem.product.brand}
+								#{salesOrderLineItem.productLineItem.product.name}
+								#{salesOrderLineItem.productLineItem.quantity}
+								#{salesOrderLineItem.productLineItem.unitOfMeasure.value} </a>
+						</div>
+
+
+						<div style="margin: 8px 0">
+							<b:if
+								condition="#{salesOrderLineItem.productLineItem.discount} == null">
+								<div class="productPrice">Rs.
+									#{salesOrderLineItem.productLineItem.mrp}</div>
+
+								<b:else>
+									<div class="productPrice">
+										Rs.
+										<del>#{salesOrderLineItem.productLineItem.mrp}</del>
+										#{salesOrderLineItem.productLineItem.price} <span
+											style="margin-left: 5px">(Rs
+											#{salesOrderLineItem.productLineItem.discount}#{salesOrderLineItem.productLineItem.discountType.value}
+											off)</span>
+
+									</div>
+								</b:else>
+							</b:if>
+							<span style="float: right" class="productPrice">Rs
+								#{salesOrderLineItem.totalPrice}</span>
+						</div>
+
+						<b:if condition="#{salesOrder.state.code} == 1">
+							<div class="buyDiv">
+								<div
+									onClick="salesOrder.decreaseItem('#{salesOrderLineItem.id}')"
+									class="rmCart buy" style="display: inline"
+									title="Remove From Bag" />
+								<input id="scItemTotal#{salesOrderLineItem.id}" name="quantity"
+									class="qty" style="float: left; margin-right: 4px"
+									value="#{salesOrderLineItem.quantity}"
+									onchange="salesOrder.updateItem('#{salesOrderLineItem.productLineItem.id}',this.value)" />
+								<div
+									onClick="salesOrder.increaseItem('#{salesOrderLineItem.id}')"
+									class="addCart buy" title="Add To Bag" />
+								<div style="padding-top: 3px">
+									<a href="javascript:void()"
+										onclick="salesOrder.removeItem('#{salesOrderLineItem.id}')">REMOVE</a>
+								</div>
+								<div class="clr" />
+							</div>
+						</b:if>
+						<div class="clr" />
+
+					</div>
+
+				</div>
+
+
+			</b:foreach>
+
+		</div>
+		<div id="orderSummary">
+			<c:panelGroup title="Order Summary">
+				<c:entity name="SalesOrderSummary" entityId="#{salesOrder.id}">
+					<div id="orderSummaryPanel">
+
+
+
+						<table width="100%">
+							<tbody>
+								<tr>
+									<td class="label">Items</td>
+									<td class="value">#{salesOrderSummary.itemCount}</td>
+								</tr>
+								<tr>
+									<td class="label">Total Price</td>
+									<td class="value">Rs #{salesOrderSummary.subTotal}</td>
+								</tr>
+								<tr>
+									<td class="label">Delivery Charges</td>
+									<td class="value">Rs #{salesOrderSummary.deliveryCharge}</td>
+								</tr>
+								<b:if condition="#{salesOrderSummary.savings} != 0.0">
+									<tr>
+										<td class="label">Savings</td>
+										<td class="value">Rs #{salesOrderSummary.savings}</td>
+									</tr>
+								</b:if>
+							</tbody>
+						</table>
+
+						<div class="grandTotal">
+							Grand Total : Rs <span id="cartGrandTotal">
+								#{salesOrderSummary.grandTotal}</span>
+						</div>
+					</div>
+				</c:entity>
+
+
+				<div class="clr" />
+			</c:panelGroup>
+			<c:panelGroup title="Delivery Address">
+
+				<div>
+					<b>#{salesOrder.deliveryAddress.name},
+						#{salesOrder.deliveryAddress.mobile}</b>
+				</div>
+				<b:if
+					condition="#{salesOrder.deliveryAddress.housingComplexAddress} == null">
+					<div>#{salesOrder.deliveryAddress.address.address}</div>
+					<div>#{salesOrder.deliveryAddress.address.area.name}</div>
+					<div>#{salesOrder.deliveryAddress.address.city.name}</div>
+					<div>#{salesOrder.deliveryAddress.address.state.name}</div>
+					<div>#{salesOrder.deliveryAddress.address.country.name}</div>
+					<div>#{salesOrder.deliveryAddress.address.pinCode}</div>
+					<b:else>
+						<div>#{salesOrder.deliveryAddress.housingComplexAddress.block}
+							- #{salesOrder.deliveryAddress.housingComplexAddress.number},
+							#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.name}</div>
+						<div>#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.area.name}</div>
+						<div>#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.city.name}</div>
+						<div>#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.state.name}</div>
+						<div>#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.country.name}</div>
+						<div>#{salesOrder.deliveryAddress.housingComplexAddress.housingComplex.address.pinCode}</div>
+					</b:else>
+				</b:if>
+
+			</c:panelGroup>
+		</div>
+	</c:parameter>
+</c:template>

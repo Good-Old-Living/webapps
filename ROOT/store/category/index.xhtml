@@ -1,0 +1,45 @@
+<c:template src="/WEB-INF/app/template/ECom.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="pageTitle" value="Retail App" />
+
+	<c:parameter name="content">
+
+		<c:breadCrumb type="category" path="#{productCategory.qualifiedName}" />
+
+
+		<div>
+
+			<c:entityList id="prodCatNav" entity="ProductCategory"
+				title="#{productCategory.name}" selectable="false"
+				filter="parentId=#{productCategory.id}"
+				default="#{productCategory.name}" style="float:left;width:20%"
+				href="#{application.root}/category#{productCategory.qualifiedName}" />
+
+
+
+			<div id="prodContent">
+				<b:if condition="#{productCategory.notes} != null">
+					<div class="prodNotes">Note: #{productCategory.notes}</div>
+				</b:if>
+
+				<c:stackedEntityGrid id="tnGrid" entity="ProductLineItem"
+					filter="product.productCategory.qualifiedName=[like]#{productCategory.qualifiedName}&amp;product.isActive=Y&amp;isActive=Y&amp;orderBy=product.popularity DESC, product.orderable, sortOrder"
+					groupBy="product"
+					unitExpression="#{quantity} #{unitOfMeasure.value} - Rs #{price}">
+					<c:include src="/store/category/inc/ProductTN.xhtml" />
+				</c:stackedEntityGrid>
+			</div>
+			<div class="clr"></div>
+		</div>
+
+		<script type="text/javascript">
+			(function() {
+				initBuyButtons();
+			})();
+		</script>
+
+
+	</c:parameter>
+
+</c:template>

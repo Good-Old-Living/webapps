@@ -1,0 +1,23 @@
+<div xmlns:c="app.ui.faces.component">
+  
+  <h1>Email Configuration</h1>
+   
+   <c:entityTable entity="Property" filter="category=admin&amp;prefix=app.config">
+    <c:columns>
+       <c:column label="Name" value="#{property.name}" width="200"/>
+       <c:column label="Value" value="#{property.value}" />
+    </c:columns>
+  </c:entityTable>  
+    
+  <c:panelGroup title="Information" binds="property">
+    <c:entityForm entity="Property">
+      <c:inputHidden value="#{property.type}" default="string"/>
+      <c:inputHidden value="#{property.category}" default="admin" />
+      <c:inputHidden value="#{property.prefix}" default="app.config"/>
+      <c:panelGrid columns="1" labelStyle="width:70px">
+        <c:inputText label="Name" value="#{property.name}"/>
+        <c:inputText label="Value" value="#{property.value}"/>
+      </c:panelGrid>
+    </c:entityForm>
+  </c:panelGroup>  
+</div>

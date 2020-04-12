@@ -1,0 +1,42 @@
+<c:template src="/WEB-INF/app/template/web/Customer.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<h2>My Orders</h2>
+
+		<c:entity name="Customer" filter="userId=#{session.E}" />
+		<div class="itemslist">
+			<b:foreach entity="SalesOrder"
+				filter="customerId=#{customer.id}&amp;orderBy=createdOn&amp;isDesc=true">
+				<div id="so#{salesOrder.id}" salesOrderId="#{salesOrder.orderId}"
+					class="salesOrderListItem item">
+
+					<div id="salesOrder-#{salesOrder.id}" style="padding: 10px;">
+						<div>
+							<p>
+								<a href="/customer/order.xhtml?no=#{salesOrder.id}"><b>#{salesOrder.orderId}</b></a>
+								placed on #{salesOrder.createdOn}
+							</p>
+						</div>
+						<p>
+							Status: <span id="sos#{salesOrder.id}">#{salesOrder.state.status}</span>
+						</p>
+
+						<b:if condition="#{salesOrder.state.code} == 1">
+							<c:outputLink label="Cancel" value="javascript:;"
+								onclick="salesOrder.cancel('#{salesOrder.id}');$(this).hide()" />
+						</b:if>
+					</div>
+
+
+
+				</div>
+
+
+			</b:foreach>
+		</div>
+	</c:parameter>
+</c:template>

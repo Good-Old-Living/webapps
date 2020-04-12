@@ -1,0 +1,25 @@
+<application name="Designer Application">
+
+	<binding-components>
+		<binding-component class="meru.app.binding.http.HttpBindingComponent"></binding-component>
+	</binding-components>
+
+	<application-engine class="meru.app.engine.entity.EntityAppEngine">
+		<entity-class-registry-class></entity-class-registry-class>
+		<entity-lifecycle-listeners>
+			<entity-lifecycle-listener>meru.application.designer.ApplicationLifeCycle</entity-lifecycle-listener>
+		</entity-lifecycle-listeners>
+	</application-engine>
+
+	<persistent-store class="meru.application.designer.repository.DesignerResourceStore">
+	     <constructor-arg type="meru.app.config.AppConfig"/>
+	</persistent-store>
+	
+	<entity-class-registry class="meru.application.designer.DesignerEntityClassRegistry"></entity-class-registry>
+	
+
+    <properties>
+        <property name="applications-home">/scratch/dev/git-repo/application</property>
+        <property name="app.comm.enabled">false</property>
+     </properties>
+</application>

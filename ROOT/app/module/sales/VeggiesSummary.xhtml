@@ -1,0 +1,85 @@
+
+<div xmlns:c="app.ui.faces.component">
+
+	<p>From Date Time</p>
+	<input id="psrFromDT" name="fromDateTime"
+		value="02-02-2020 12:01:00 AM" />
+	<button onclick="onReportInput()">Load</button>
+	<br />
+
+	<div style="margin: 10px 0 0 5px">
+		<a href="javascript:;" onclick="downloadFile('Sahaja')">Download Product
+			List for Sahaja</a>
+			
+			<a href="javascript:;" style="margin-left:20px" onclick="downloadFile('Arivu')">Download Product
+			List for Arivu</a>
+	</div>
+
+	<div style="margin: 10px 0 0 5px">
+		<a href="javascript:;" onclick="downloadVegPriceListFile()">Download
+			Product Price List</a>
+	</div>
+
+	<h1>Fruits</h1>
+	<c:entityTable id="prdSalesReportTble101" entity="ProductSalesReport"
+		filter="fromDateTime=02-10-2019 02:45:35 PM&amp;orderBy=product.name"
+		lifeCycle="none" autoLoad="false">
+		<c:columns>
+			<c:column value="#{productSalesReport.product.name}" label="Product"
+				width="300" />
+			<c:column value="#{productSalesReport.quantity}" label="Quantity" />
+		</c:columns>
+	</c:entityTable>
+	<h1>Vegetables</h1>
+	<c:entityTable id="prdSalesReportTble102" entity="ProductSalesReport"
+		filter="fromDateTime=03-10-2019 02:45:35 PM&amp;orderBy=product.name"
+		lifeCycle="none" autoLoad="false">
+		<c:columns>
+			<c:column value="#{productSalesReport.product.name}" label="Product"
+				width="300" />
+			<c:column value="#{productSalesReport.quantity}" label="Quantity" />
+		</c:columns>
+	</c:entityTable>
+	<h1>Leafy Vegetables</h1>
+	<c:entityTable id="prdSalesReportTble103" entity="ProductSalesReport"
+		filter="fromDateTime=03-10-2019 02:45:35 PM&amp;orderBy=product.name"
+		lifeCycle="none" autoLoad="false">
+		<c:columns>
+			<c:column value="#{productSalesReport.product.name}" label="Product"
+				width="300" />
+			<c:column value="#{productSalesReport.quantity}" label="Quantity" />
+		</c:columns>
+	</c:entityTable>
+
+	<script type="text/javascript">
+		function onReportInput(supplier) {
+			var f = document.getElementById("psrFromDT").value;
+			loadVegReport("101", f);
+			loadVegReport("102", f);
+			loadVegReport("103", f);
+		}
+
+		function loadVegReport(catId, frmDate) {
+			var tablId = "prdSalesReportTble" + catId;
+			var uiComp = document.getElementById(tablId).uiComp;
+			uiComp.load("product.productCategory.id=" + catId
+					+ "&amp;fromDateTime=" + frmDate
+					+ "&amp;orderBy=product.name");
+		}
+
+		function downloadFile(supplier) {
+			var f = document.getElementById("psrFromDT").value;
+			var e = entityStore.getFirst("ActionEntity",
+					"action=VeggiesCountReportAction&amp;data=" + supplier
+							+ "," + f + "");
+			window.location = e["csvFile"];
+		}
+
+		function downloadVegPriceListFile() {
+			var e = entityStore.getFirst("ActionEntity",
+					"action=VeggiesPriceListAction");
+			window.location = e["file"];
+		}
+	</script>
+
+</div>

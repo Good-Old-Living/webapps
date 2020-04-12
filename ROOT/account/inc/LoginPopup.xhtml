@@ -1,0 +1,49 @@
+
+<c:popup id="loginPopup" class="accountPopup" title="Login"
+	xmlns:c="app.ui.faces.component">
+	<div>
+	    
+		<div class="loginForm accountForm">
+			<div id="loginErr" style="color: red"></div>
+			<form id="loginForm" method="post" target="loginIframe"
+				action="/a/login">
+				<c:inputHidden name="redirectTo" value="/" />
+				<div>
+					<label for="em">Mobile</label> <input name="mobile"
+						type="text" />
+				</div>
+				<div>
+					<label for="pw">Password</label> <input type="password" id="pw"
+						name="password" />
+				</div>
+
+				<div class="centeredDiv">
+					<input type="submit" value="Login" class="formSubmitInput" />
+				</div>
+
+				<div class="centeredDiv">
+					<c:popupLink id="resetPwdLink" label="Forgot Password?"
+							src="/account/inc/ResetPasswordPopup.xhtml" />
+				</div>
+			</form>
+
+			<iframe name="loginIframe" width="0" height="0"
+				style="visibility: hidden;"></iframe>
+
+		</div>
+		<div class="clr" />
+	</div>
+
+	<div class="foot">
+		<a href="javascript:;" onclick="newUser()">New User?</a>
+	</div>
+
+	<script type="text/javascript">
+		function newUser() {
+			ui.popup.closeAll();
+			$("#registerLink").click();
+		}
+	</script>
+
+</c:popup>
+

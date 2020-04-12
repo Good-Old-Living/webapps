@@ -1,0 +1,59 @@
+<div class="imgGrid availMsg" xmlns:c="app.ui.faces.component"
+	xmlns:b="app.ui.faces.block">
+	<c:outputLink
+		value="#{application.root}/product#{productLineItem.product.productCategory.qualifiedName}/#{productLineItem.product.brand}~#{productLineItem.product.name}/#{productLineItem.quantity} #{productLineItem.unitOfMeasure.value}">
+		<img src="#{productLineItem.tnImage}" width="150" height="150" />
+
+		<div class="prodType">
+			<c:outputText rendered="productLineItem.product.brand != null"
+				value="#{productLineItem.product.brand}" />
+			<c:outputText rendered="productLineItem.product.type != null"
+				value="#{productLineItem.product.type.value}" />
+
+		</div>
+		<div class="prodLink">#{productLineItem.product.name}
+			#{productLineItem.quantity} #{productLineItem.unitOfMeasure.value}</div>
+
+	</c:outputLink>
+
+	<div class="prodName">
+		<b:if condition="#{productLineItem.discount} == null">
+			<div class="productPrice">Rs. #{productLineItem.mrp}</div>
+		</b:if>
+		<b:if condition="#{productLineItem.discount} != null">
+			<div class="productPrice">
+				Rs.
+				<span class="disMrp">#{productLineItem.mrp}</span>
+				#{productLineItem.price}
+			</div>
+		</b:if>
+		<b:if
+			condition="#{productLineItem.product.orderable} == Y &amp;&amp; #{productLineItem.product.productCategory.orderable} == Y &amp;&amp; #{productLineItem.product.orderable} == Y">
+
+			<b:if
+				condition="#{productLineItem.netQuantity} == null || #{productLineItem.netQuantity}==-1 || #{productLineItem.netQuantity}> 0">
+				<c:include src="/store/product/inc/Buy.xhtml" />
+
+				<b:if
+					condition="#{productLineItem.product.deliveryInstructions} != null">
+					<div class="outOfStock">
+						<a href="javascript:void(0);"
+							onClick="checkDeliveryTimes('#{productLineItem.product.deliveryInstructions}')">Check
+							delivery times</a>
+					</div>
+				</b:if>
+				<b:else>
+					<div class="outOfStock">
+						<div>Out of Stock</div>
+						<button class="notifyButton"
+							onClick="product.notifyMe('#{productLineItem.id}')">Notify
+							Me</button>
+					</div>
+				</b:else>
+
+
+			</b:if>
+
+		</b:if>
+	</div>
+</div>

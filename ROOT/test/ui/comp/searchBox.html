@@ -1,0 +1,72 @@
+<html>
+<head>
+	<style>
+	
+		.searchBox {
+		    position:relative;
+			width: 480px;		    
+		    padding: 2px 0;
+		    box-shadow: 0 0 2px #919191 inset;
+		    border-radius: 5px;
+		    border: 1px solid #919191;
+		}
+		
+		.searchBox .box {
+		    position: absolute;
+		    width: 385px;
+		    color: #999;
+		    font-size: 75%;
+		    height: 20px;
+		    left: 4px;
+		    top: 4px;
+		    padding: 5px 0 0;
+		}
+		
+		.sprite {
+		    background: url("/ecom/img/new_indiahomesprite18.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+		}
+		
+		.searchBox .glass {
+		    width: 14px;
+		    background-position: -30px -237px;
+		    display: inline-block;
+		    height: 15px;
+		    margin-left: 8px;
+		    vertical-align: middle;
+		}
+		
+		.searchBox .searchField {
+		    width: 390px;
+		    border: 0 none;
+		    height: 23px;
+		    padding: 1px 0 0 3px;
+		    vertical-align: middle;
+		}
+		
+		
+		.searchBox .searchButton {
+		    width: 85px;
+		    color: #ffffff;
+		    font-weight: bold;
+		    height: 28px;
+		    background: none repeat scroll 0 0 #8cb839;
+		    border: 1px solid #759d2c;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="searchBox">
+		<div onclick="this.style.display='none';document.getElementById('srchword').focus();" class="box" id="srchinputcopy" style="display: block;">
+			<span class="glass sprite"></span> Search for a product, category or brand
+		</div>
+		<input type="text" class="searchField" name="srchword" id="srchword"autocomplete="off">
+		<input type="submit" class="searchButton" value="Search">
+	</div>
+
+</body>
+</html>	
+		

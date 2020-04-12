@@ -1,0 +1,109 @@
+<div xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+	<c:entity name="Customer" filter="userId=#{session.E}" />
+	<c:panelGroup title="Delivery Addresses">
+		<div id="coAddrList">
+			<b:foreach entity="CustomerAddress"
+				filter="customerId=#{customer.id}"
+				noEntityMsg="You have not created any delivery address yet">
+				<c:include src="/store/cart/inc/AddressRadio.xhtml" />
+			</b:foreach>
+
+			<div class="clr" />
+		</div>
+		<p>
+			<c:outputLink label="New Apartment / Gated Community Address"
+				value="javascript:;"
+				onclick="customerAddressListener.newDialog('#{customer.id}', true)" />
+		</p>
+		<p>
+
+			<c:outputLink label="New Independent House Address"
+				value="javascript:;"
+				onclick="customerAddressListener.newDialog('#{customer.id}')" />
+		</p>
+
+		<c:dialog id="deliveryHCAddressDlg" title="Delivery Address"
+			style="max-width:500px">
+			<c:entityForm id="deliveryHCAddressForm" entity="CustomerAddress"
+				entityId="#{customerHCAddress.id}" var="customerHCAddress" successMsg="null" status="false">
+				<c:inputHidden 
+					value="#{customerHCAddress.customerId}" default="#{customer.id}" />
+					<c:inputHidden 
+					value="#{customerHCAddress.housingComplexAddress.id}"/>
+
+				<c:panelGrid>
+					<c:panelGridSection title="Contact Details">
+						<c:inputText label="Name" value="#{customerHCAddress.name}"
+							required="true" />
+						<c:inputText label="Mobile" value="#{customerHCAddress.mobile}"
+							required="true" length="10" regExp="^[0-9]+$" />
+						<c:inputText label="Alternate Phone"
+							value="#{customerHCAddress.altPhone}" length="10"
+							regExp="^[0-9]+$" />
+
+					</c:panelGridSection>
+
+					<c:panelGridSection title="Housing Complex" id="delAddressHCPGS">
+						<c:selectOneEntityMenu
+							value="#{customerHCAddress.housingComplexAddress.housingComplex.name}"
+							label="Apartment/Villa" entity="HousingComplex"
+							onchange="customerAddressListener.onHCSelect(this)" />
+						<c:inputText label="Block"
+							value="#{customerHCAddress.housingComplexAddress.block}" />
+						<c:inputText label="Flat Number"
+							value="#{customerHCAddress.housingComplexAddress.number}" />
+
+						<div id="hcAddress" />
+
+					</c:panelGridSection>
+
+				</c:panelGrid>
+			</c:entityForm>
+
+		</c:dialog>
+
+		<c:dialog id="deliveryAddressDlg" title="Delivery Address"
+			style="max-width:500px">
+
+			<c:entityForm id="deliveryAddressForm" entity="CustomerAddress"
+				entityId="#{customerAddress.id}" successMsg="null" status="false">
+				<c:inputHidden 
+					value="#{customerAddress.customerId}" default="#{customer.id}" />
+				<c:inputHidden value="#{customerAddress.address.id}" />
+				<c:panelGrid>
+					<c:panelGridSection title="Contact Details">
+						<c:inputText label="Name" value="#{customerAddress.name}"
+							required="true" />
+						<c:inputText label="Mobile" value="#{customerAddress.mobile}"
+							required="true" length="10" regExp="^[0-9]+$" />
+						<c:inputText label="Alternate Phone"
+							value="#{customerAddress.altPhone}" length="10" regExp="^[0-9]+$" />
+
+					</c:panelGridSection>
+					<c:panelGridSection title="Address">
+						<c:inputTextarea label="Address"
+							value="#{customerAddress.address.address}" />
+						<c:inputText label="Landmark"
+							value="#{customerAddress.address.landmark}" />
+						<c:selectOneEntityMenu
+							value="#{customerAddress.address.area.name}" label="Area"
+							entity="CityArea" filter="cityId=1&amp;orderBy=name" />
+						<c:selectOneEntityMenu
+							value="#{customerAddress.address.city.name}" label="City"
+							entity="City" filter="countryId=1&amp;stateId=18" default="1" />
+						<c:selectOneEntityMenu
+							value="#{customerAddress.address.state.name}" label="State"
+							entity="State" filter="countryId=1" default="18" />
+						<c:selectOneEntityMenu
+							value="#{customerAddress.address.country.name}" label="Country"
+							entity="Country" default="1" />
+						<c:inputText label="Pin"
+							value="#{customerAddress.address.pinCode}" length="6"
+							regExp="^[0-9]+$" />
+					</c:panelGridSection>
+				</c:panelGrid>
+			</c:entityForm>
+			
+		</c:dialog>
+	</c:panelGroup>
+</div>

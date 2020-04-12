@@ -1,0 +1,86 @@
+<c:template src="/WEB-INF/app/template/ECom.xml"
+	xmlns:c="app.ui.faces.component">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<div id="checkoutPage">
+			<h1>Checkout</h1>
+			<c:entity name="Customer" filter="userId=#{session.E}" />
+
+			<div id="checkoutWz">
+
+				<c:include src="/store/cart/inc/Address.xhtml" />
+				
+				
+				<c:panelGroup title="Delivery Instructions, if any">
+				   <textarea id="delIntsInput"/>
+				</c:panelGroup>
+				<div class="clr"/>
+				<!-- <c:panelGroup title="Delivery Slot">
+					<c:panelGrid>
+						<c:inputDate label="Delivery Date" value="" />
+						<c:selectOneEntityMenu
+							value="" label="Time Slot"
+							entity="DeliveryTimeSlot" />
+					</c:panelGrid>
+				</c:panelGroup>  -->
+				
+				<c:panelGroup title="Payment">
+					<c:include src="/store/cart/inc/Payment.xhtml" />
+				</c:panelGroup>
+
+				<div class="clr" />
+				<div class="ralign">
+
+					<span class="commandButton noMargin rfloat"
+						onclick="shoppingCart.submitOrder()">Place Order</span>
+
+				</div>
+
+			</div>
+
+			<div id="orderSummary" customerId="#{customer.id}">
+				<c:entityForm id="salesOrderForm" entity="SalesOrder"
+					submittable="false" successMsg="null" status="false">
+
+					<c:inputHidden value="#{salesOrder.deliveryAddress.id}"
+						id="delAddressId" />
+					<c:inputHidden value="#{salesOrder.customerId}"
+						default="#{customer.id}" id="delCustId" />
+					<c:inputHidden value="#{salesOrder.paymentMethod.id}" default="1" />
+					<c:inputHidden value="#{salesOrder.deliveryInstructions}" id="delInsts" />
+
+					<c:entityTable id="orderSummaryTable" entity="ShoppingCartLineItem"
+						title="Order Summary" class="shoppingCartTable"
+						rowSelection="none" lifeCycle="none" header="no">
+						<c:columns>
+							<c:column label="Product"
+								value="#{shoppingCartLineItem.productLineItem.product.brand} #{shoppingCartLineItem.productLineItem.product.name} #{shoppingCartLineItem.productLineItem.quantity} #{shoppingCartLineItem.productLineItem.unitOfMeasure.value}"
+								sortable="true"
+								href="/product#{shoppingCartLineItem.productLineItem.product.productCategory.qualifiedName}/#{shoppingCartLineItem.productLineItem.product.brand}~#{shoppingCartLineItem.productLineItem.product.name}/#{shoppingCartLineItem.productLineItem.quantity} #{shoppingCartLineItem.productLineItem.unitOfMeasure.value}" />
+							<c:column label="Qty" value="#{shoppingCartLineItem.quantity}"
+								width="30" sortable="true" align="center"
+								onInputChange="addToCart" />
+							<c:column label="Price"
+								value="#{shoppingCartLineItem.totalPrice}" width="50"
+								align="right" />
+						</c:columns>
+					</c:entityTable>
+					<c:entity name="SessionShoppingCart" entityId="-1">
+						<div class="grandTotal">Grand Total : Rs
+							#{sessionShoppingCart.grandTotal}</div>
+					</c:entity>
+
+					<c:panelGroup id="delAddressPanel" title="Deliver To Address">
+						<div id="delAddress"></div>
+					</c:panelGroup>
+				</c:entityForm>
+			</div>
+
+
+			<div class="clr" />
+		</div>
+	</c:parameter>
+</c:template>

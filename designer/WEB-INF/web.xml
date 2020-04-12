@@ -1,0 +1,60 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+  version="3.0"
+  metadata-complete="false">
+  
+	<description>Application Designer</description>
+	<display-name>Application Designer</display-name>
+
+    <servlet>
+		<description>Bootstrap Servlet</description>
+		<servlet-name>BootstrapServlet</servlet-name>
+		<servlet-class>meru.app.server.servlet.BootstrapServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>XHTML Handler</description>
+		<servlet-name>XHtmlRenderer</servlet-name>
+		<servlet-class>meru.app.binding.http.servlet.XHtmlServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>Business Objects Servlet</description>
+		<servlet-name>BusinessObjectsServlet</servlet-name>
+		<servlet-class>meru.app.binding.http.servlet.BusinessObjectServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>XHtmlRenderer</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>BusinessObjectsServlet</servlet-name>
+		<url-pattern>/e/*</url-pattern>
+	</servlet-mapping>
+
+
+	<resource-ref>
+		<description>App DB Connection</description>
+		<res-ref-name>jdbc/appDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.xhtml</welcome-file>
+	</welcome-file-list>
+	
+	<!-- <error-page>
+      <exception-type>java.lang.Exception</exception-type>
+      <location>/error.xhtml</location>
+    </error-page> -->
+
+</web-app>	
+	

@@ -1,0 +1,76 @@
+
+<div xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<div id="header">
+
+		<div class="top">
+
+			<div class="contactHdrList">
+				<ul>
+					<li><div class="phone"></div> <span>98809 60654</span></li>
+					<li><div class="phone"></div> <span>080-40959550</span></li>
+					<li><div class="email"></div> <a href="mailto:care@goodoldliving.com">care@goodoldliving.com</a></li>
+
+				</ul>
+			</div>
+			<div class="account">
+                
+				<div>
+				    <span id="gplayLink"><a href='https://play.google.com/store/apps/details?id=com.goodoldliving.app' target='_blank'>Available on Google Play Store</a></span>
+					<!-- <span>Availability</span> <span>Wishlist</span> -->
+					<a href="javascript:;" onclick="shoppingCart.checkout(this)">Checkout</a>
+
+					<b:if condition="#{session.E} == null">
+						<c:popupLink id="loginLink" label="Login"
+							src="/account/inc/LoginPopup.xhtml" />&amp;nbsp;
+			    <c:popupLink id="registerLink" label="Signup"
+							src="/account/inc/RegisterPopup.xhtml?r=202" />
+						<!-- <a href="/account/a/logout?a=#{application.root}" class="tooltip">Logout<span><strong>Most Light-weight Tooltip</strong><br />Logout</span></a> -->
+						<b:else>
+							<c:entity name="Customer" filter="userId=#{session.E}" />
+							<a href="#{application.root}/customer">My Account</a>
+							<a href="/a/logout?isweb=true" onclick="logout()" class="tooltip">Logout</a>
+						</b:else>
+					</b:if>
+				</div>
+				<div class="clr" />
+			</div>
+			<div class="clr" />
+		</div>
+
+
+		<div class="middle">
+			<a href="/"><div id="logo" /></a>
+
+			<c:include src="/WEB-INF/app/template/web/inc/SearchBox.xhtml" />
+
+            <a href="#{application.root}/store/cart">
+			<div id="hdrCart">
+				<c:entity name="SessionShoppingCart" />
+				<div>
+					Cart (<span
+						class="scCount">#{sessionShoppingCart.itemCount}</span>)
+				
+				</div>
+			</div>
+				</a>
+		</div>
+		<div id="mainNav">
+
+			<div class="catCon">
+				<div class="cat">
+					Category <span> <![CDATA[&#x25bc;]]>
+					</span>
+				</div>
+				<c:navEntityTree id="navTree" entity="ProductCategory"
+					filter="isActive=Y&amp;orderBy=sortOrder" href="/category#{qName}"
+					numItems="16" menuWidth="180" />
+			</div>
+
+
+			<div class="clr" />
+
+		</div>
+	</div>
+	<div class="clr" />
+</div>

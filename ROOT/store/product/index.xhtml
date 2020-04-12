@@ -1,0 +1,231 @@
+<c:template src="/WEB-INF/app/template/ECom.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="pageTitle" value="Retail App" />
+
+	<c:parameter name="htmlHead">
+
+	</c:parameter>
+
+	<c:parameter name="content">
+
+		<c:breadCrumb type="category"
+			path="#{productLineItem.product.productCategory.qualifiedName}"
+			suffix="#{productLineItem.product.name} #{productLineItem.quantity} #{productLineItem.unitOfMeasure.value}" />
+
+		<div id="productPage">
+			<c:entity name="ProductCategory"
+				filter="parentId=#{productLineItem.product.productCategory.parentId}" />
+			<c:entity name="ProductCategory"
+				filter="id=#{productCategory.parentId}" />
+			<c:entityList class="categoryList" entity="ProductCategory"
+				title="#{productCategory.name}" selectable="false"
+				filter="parentId=#{productLineItem.product.productCategory.parentId}"
+				default="#{productCategory.name}"
+				href="#{application.root}/category#{productCategory.qualifiedName}" />
+
+			<div class="productDetails">
+
+				<div>
+					<div class="imgContainer">
+
+						<c:entity name="ProductImage"
+							filter="entityId=#{productLineItem.product.id}&amp;size=300x300">
+							<c:graphicImage value="#{productImage.image}" />
+						</c:entity>
+					</div>
+
+
+					<div class="prdInfo availMsg"
+						availability="#{productLineItem.product.productCategory.availability}">
+
+						<span>#{productLineItem.product.brand}</span>
+						<c:outputText rendered="productLineItem.product.type != null"
+							value="#{productLineItem.product.type.value}" />
+						<div class="prdName">#{productLineItem.product.name}
+							#{productLineItem.quantity}
+							#{productLineItem.unitOfMeasure.value}</div>
+
+						<div>#{productLineItem.product.shortDescription}</div>
+
+						<div class="prdPrice">
+							<b:if condition="#{productLineItem.discount} == null">
+								<div class="prodPrice">Rs. #{productLineItem.mrp}</div>
+								<b:else>
+									<div class="prodPrice">
+										<span>Rs. </span> <span class="disMrp">#{productLineItem.mrp}</span>
+										<span style="padding-left: 5px">#{productLineItem.price}</span>
+
+									</div>
+								</b:else>
+							</b:if>
+							<!-- <b:if condition="#{productLineItem.discount} != null">
+
+								<table>
+									<tbody>
+										<tr>
+											<td align="right">MRP :</td>
+											<td style="padding-left: 10px">#{productLineItem.mrp}</td>
+										</tr>
+										<tr>
+											<td align="right">Discount :</td>
+											<td style="padding-left: 10px">#{productLineItem.discount}#{productLineItem.discountType.value}</td>
+										</tr>
+										<tr>
+											<td align="right">Price :</td>
+											<td style="padding-left: 10px"><span class="prodPrice">Rs.
+													#{productLineItem.price}</span></td>
+
+										</tr>
+									</tbody>
+								</table>
+							</b:if> -->
+
+						</div>
+
+						<div style="margin-top: 20px">
+
+							<b:if
+								condition="#{productLineItem.product.orderable} == Y &amp;&amp; #{productLineItem.product.productCategory.orderable} == Y &amp;&amp; #{productLineItem.product.orderable} == Y">
+
+								<b:if
+									condition="#{productLineItem.netQuantity} == null || #{productLineItem.netQuantity}==-1 || #{productLineItem.netQuantity}> 0">
+
+									<b:if
+										condition="#{productLineItem.product.deliveryInstructions} != null">
+										<div class="prodDelIns">#{productLineItem.product.deliveryInstructions}</div>
+									</b:if>
+									<c:include src="/store/product/inc/Buy.xhtml" />
+
+
+									<b:else>
+										<div class="outOfStock">
+											<p>Out of Stock</p>
+											<button class="notifyButton"
+												onClick="product.notifyMe('#{productLineItem.id}')">Notify
+												Me</button>
+										</div>
+									</b:else>
+
+
+								</b:if>
+							</b:if>
+
+							<div class="clr" />
+							<div class="otherVariants">
+
+								<b:foreach entity="ProductLineItem" var="prdLineItem"
+									filter="product.id=#{productLineItem.product.id}&amp;isActive=Y&amp;id=[&lt;>]#{productLineItem.id}">
+									<div class="gridItem">
+										<div class="imgGrid">
+											<c:outputLink
+												value="#{application.root}/product#{prdLineItem.product.productCategory.qualifiedName}/#{prdLineItem.product.brand}~#{prdLineItem.product.name}/#{prdLineItem.quantity} #{prdLineItem.unitOfMeasure.value}">
+												<img src="#{prdLineItem.tnImage}" width="140" />
+												<p style="word-wrap: break-word;">
+													<c:outputText rendered="prdLineItem.product.brand != null"
+														value="#{prdLineItem.product.brand}" />
+													#{prdLineItem.product.name} #{prdLineItem.quantity}
+													#{prdLineItem.unitOfMeasure.value}
+												</p>
+											</c:outputLink>
+
+											<div style="vertical-align: bottom;">
+												<b:if condition="#{prdLineItem.discount} == null">
+													<div class="productPrice">Rs. #{prdLineItem.mrp}</div>
+												</b:if>
+												<b:if condition="#{prdLineItem.discount} != null">
+													<div class="productPrice">
+														<del>Rs. #{prdLineItem.mrp}</del>
+														#{prdLineItem.price}
+													</div>
+												</b:if>
+
+
+												<b:if
+													condition="#{productLineItem.product.orderable} == Y &amp;&amp; #{productLineItem.product.productCategory.orderable} == Y &amp;&amp; #{productLineItem.product.orderable} == Y">
+
+													<b:if
+														condition="#{prdLineItem.netQuantity} == null || #{prdLineItem.netQuantity}==-1 || #{prdLineItem.netQuantity}> 0">
+														<!-- <c:include src="/store/product/inc/Buy.xhtml" /> -->
+														<div class="buyDiv">
+															<div style="float: left">
+																<input name="quantity" class="qty"
+																	value="#{shoppingCartLineItem.quantity}"
+																	onchange="shoppingCart.addItem('#{shoppingCartLineItem.productLineItem.id}',this.value)" />
+																<span style="display: none" class="buyProdId">#{prdLineItem.id}</span>
+																<span style="display: none" class="buyProdName">#{prdLineItem.product.name}
+																	#{prdLineItem.quantity}
+																	#{prdLineItem.unitOfMeasure.name}</span>
+															</div>
+															<span class="addCart buy" title="Add To Bag" />
+															<!-- <b:if
+																condition="#{prdLineItem.product.productCategory.availability} != null">
+																<span class="prodAvail"
+																	onclick="product.checkAvailability(this)">Check
+																	Availability</span>
+															</b:if> -->
+															<div class="clr" />
+														</div>
+														<b:else>
+															<p class="outOfStock">Out of Stock</p>
+														</b:else>
+
+
+													</b:if>
+												</b:if>
+											</div>
+										</div>
+									</div>
+								</b:foreach>
+							</div>
+
+
+							<div class="clr" />
+
+
+
+						</div>
+					</div>
+
+					<div class="clr" />
+				</div>
+
+				<div class="prodDesc">#{productLineItem.product.description}</div>
+				<div>
+
+					<b:foreach entity="ProductFeatureValue"
+						filter="ownerId=#{productLineItem.id}&amp;ownerType=PL&amp;orderBy=sortOrder">
+						<div class="prdPriceBreakup">
+							<div class="prdPriceAttr">#{productFeatureValue.rowAttributeName}</div>
+							<div class="prdPriceAttrVal">Rs.
+								#{productFeatureValue.value}</div>
+						</div>
+					</b:foreach>
+					<div class="clr" />
+				</div>
+
+				<div>
+
+					<b:foreach entity="ProductFeatureValue"
+						filter="ownerId=#{productLineItem.id}&amp;ownerType=PL&amp;orderBy=sortOrder">
+						<div class="prdPriceBreakup">
+							<div class="prdPriceAttr">#{productFeatureValue.rowAttributeName}</div>
+							<div class="prdPriceAttrVal">Rs.
+								#{productFeatureValue.value}</div>
+						</div>
+					</b:foreach>
+					<div class="clr" />
+				</div>
+
+			</div>
+		</div>
+		<script type="text/javascript">
+			(function() {
+				initBuyButtons();
+			})();
+		</script>
+
+		<div class="clr" />
+	</c:parameter>
+
+</c:template>

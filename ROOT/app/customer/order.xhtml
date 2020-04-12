@@ -1,0 +1,104 @@
+<c:template src="/WEB-INF/app/template/web/Customer.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<c:entity name="SalesOrder" filter="id=#{query.no}" />
+
+		<h2>My Order - #{salesOrder.orderId}</h2>
+
+		<div id="shoppingCart">
+			<b:foreach entity="SalesOrderLineItem"
+				filter="salesOrderId=#{salesOrder.id}">
+				<div id="soir#{salesOrderLineItem.id}" class="cartItemRow">
+					<div class="cartImageCon">
+						<img src="#{salesOrderLineItem.productLineItem.tnImage}"
+							class="cartImage" />
+					</div>
+					<div class="prodInfo">
+						<c:outputText
+							rendered="salesOrderLineItem.productLineItem.product.type != null"
+							value="#{salesOrderLineItem.productLineItem.product.type.value}" />
+						<div class="prodTitle">
+							<a id="soi#{salesOrderLineItem.id}"
+								href="/product#{salesOrderLineItem.productLineItem.product.productCategory.qualifiedName}/#{salesOrderLineItem.productLineItem.product.brand}~#{salesOrderLineItem.productLineItem.product.name}/#{salesOrderLineItem.productLineItem.quantity} #{salesOrderLineItem.productLineItem.unitOfMeasure.value}">
+								#{salesOrderLineItem.productLineItem.product.brand} #{salesOrderLineItem.productLineItem.product.name} #{salesOrderLineItem.productLineItem.quantity} #{salesOrderLineItem.productLineItem.unitOfMeasure.value} </a>
+						</div>
+
+
+						<table>
+							<tbody>
+								<tr>
+									<td><span>MRP</span></td>
+									<td><span>Price</span></td>
+									<td><span>Total</span></td>
+
+								</tr>
+								<tr>
+									<td><span class="value">Rs
+											#{salesOrderLineItem.productLineItem.mrp}</span></td>
+									<td><span class="value">Rs
+											#{salesOrderLineItem.productLineItem.price}</span></td>
+									<td><span class="value">Rs
+											#{salesOrderLineItem.totalPrice}</span></td>
+								</tr>
+
+							</tbody>
+						</table>
+						<p>
+							<a href="javascript:;"
+								onclick="salesOrder.removeItem('#{salesOrderLineItem.id}')">Remove</a>
+						</p>
+						<div class="clr" />
+
+					</div>
+
+				</div>
+
+
+			</b:foreach>
+
+		</div>
+        <c:panelGroup id="orderSummary" title="Order Summary">
+			<c:entity name="SalesOrderSummary" entityId="#{salesOrder.id}">
+				<div id="orderSummaryPanel">
+
+
+
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td class="label">Items</td>
+								<td class="value">#{salesOrderSummary.itemCount}</td>
+							</tr>
+							<tr>
+								<td class="label">Total Price</td>
+								<td class="value">Rs #{salesOrderSummary.subTotal}</td>
+							</tr>
+							<tr>
+								<td class="label">Delivery Charges</td>
+								<td class="value">Rs #{salesOrderSummary.deliveryCharge}</td>
+							</tr>
+							<b:if condition="#{salesOrderSummary.savings} != 0.0">
+								<tr>
+									<td class="label">Savings</td>
+									<td class="value">Rs #{salesOrderSummary.savings}</td>
+								</tr>
+							</b:if>
+						</tbody>
+					</table>
+
+					<div class="grandTotal">
+						Grand Total : Rs <span id="cartGrandTotal">
+							#{salesOrderSummary.grandTotal}</span>
+					</div>
+				</div>
+			</c:entity>
+
+			<div class="clr" />
+		</c:panelGroup>
+		
+	</c:parameter>
+</c:template>

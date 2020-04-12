@@ -1,0 +1,11 @@
+<div class="searchBox">
+	<div
+		onclick="this.style.display='none';document.getElementById('productSearchField').focus();"
+		class="box">
+		<span class="glass"></span> Search for a product, category or
+		brand
+	</div>
+	<input id="productSearchField" type="text" class="searchField" name="q"
+		autocomplete="off" onkeyup="listProductsDropDown(this.value)" /> <input
+		type="submit" class="searchButton button" value="Search"  onclick="searchProducts()"/>
+</div>

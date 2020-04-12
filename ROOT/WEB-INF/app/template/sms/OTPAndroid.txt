@@ -1,0 +1,2 @@
+<#> Your OTP for GoodOldLiving is #{code}
+6Xfi7PYD6+y

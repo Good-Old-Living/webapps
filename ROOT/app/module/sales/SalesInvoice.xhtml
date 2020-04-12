@@ -1,0 +1,41 @@
+
+<div xmlns:c="app.ui.faces.component">
+     <h1>Sales Invoices</h1>
+      <c:entityTable entity="SalesInvoice" filter="orderBy=salesOrder.placedOn&amp;isDesc=true" lifeCycle="none">
+       <c:columns>
+          <c:column value="#{salesInvoice.number}" label="Invoice No." width="150"/>
+          <c:column value="#{salesInvoice.salesOrder.orderId}" label="Order No." width="150"/>
+          <c:column value="#{salesInvoice.salesOrder.customer.name}" label="Name" width="150"/>
+          <c:column value="#{salesInvoice.salesOrder.customer.address.address.area}" label="Location" width="150"/>
+          <c:column value="#{salesInvoice.salesOrder.placedOn}" label="Placed On" width="170" />
+          <c:column value="#{salesInvoice.salesOrder.state.status}" label="Status"/>
+        </c:columns>
+      </c:entityTable>
+       <c:panelGroup  title="Sales Invoice" binds="salesInvoice">
+           <c:entityForm id="salesInvoiceForm" entity="SalesInvoice" submittable="false">
+              <c:inputHidden value="#{salesInvoice.salesOrder.id}"/>
+              <c:panelGrid columns="1">
+                      
+                      <c:inputText label="Invoice No." value="#{salesInvoice.number}"/>
+                      <c:inputText label="Invoice Date" value="#{salesInvoice.salesOrder.placedOn}"/>
+              </c:panelGrid>   
+         
+           </c:entityForm>
+         
+             <br/>
+            <p>
+               <a href="javascript:;" onclick="printInvoice()">Print Invoice</a>
+            </p>
+            <br/>
+            
+            <iframe id="printFrame" name="printFrame" width="0" height="0" style="border:0"></iframe>
+	        <script type="text/javascript">
+	          function printInvoice() {
+	             var orderId = document.getElementById("salesInvoiceForm")["salesInvoice.salesOrder.id"].value;
+	             if (orderId)
+	            	 window.open("/app/module/sales/PrintInvoice.xhtml?orderId="+orderId);
+	          }
+	        </script>
+            
+       </c:panelGroup>  
+ </div>

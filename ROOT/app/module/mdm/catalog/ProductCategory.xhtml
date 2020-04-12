@@ -1,0 +1,15 @@
+<div xmlns:c="app.ui.faces.component">
+    
+	<c:splitPane>
+	    <c:entityTree id="content-left" title="Category" entity="ProductCategory" filter="orderBy=sortOrder"
+	         onItemClick="ui.page.section.attachXHtml('app/module/mdm/catalog/inc/ProductCategoryInfo.xhtml?id=#{hierarchical.id}','catContent','Product Category')"
+	         onFolderClick="ui.page.section.attachXHtml('app/module/mdm/catalog/inc/ProductCategoryInfo.xhtml?id=#{hierarchical.id}','catContent','Product Category')"/>
+	    <div id="content-right">
+	  		
+	  		  
+	  		<div id="catContent" style="margin-left:5px;">
+	  		</div>  
+	    </div>
+  
+  </c:splitPane>   
+</div>

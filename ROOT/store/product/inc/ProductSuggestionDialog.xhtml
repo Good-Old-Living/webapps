@@ -1,0 +1,8 @@
+<c:dialog title="Suggest a Product" id="prdSuggestDlg" xmlns:c="nandhi.app.ui.component">
+  <c:entityForm entity="ProductSuggestion" style="background-color:#ffffff" submitButtonStyle="text-align:center" submitButtonLabel="Suggest" successMsg="Thank you for valuable suggestion." supports="none" >
+    <c:panelGrid>
+      <c:inputText label="Email" value="#{productSuggestion.email}"/>
+      <c:inputTextarea label="Description" value="#{productSuggestion.suggestion}"/>
+    </c:panelGrid>
+  </c:entityForm>
+</c:dialog>  
