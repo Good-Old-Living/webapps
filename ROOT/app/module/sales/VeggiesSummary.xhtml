@@ -19,6 +19,10 @@
 		<a href="javascript:;" onclick="downloadVegPriceListFile()">Download
 			Product Price List</a>
 	</div>
+	
+	<div style="margin: 10px 0 0 5px">
+		<a href="javascript:;" onclick="printOrders()">Print Orders</a>
+	</div>
 
 	<h1>Fruits</h1>
 	<c:entityTable id="prdSalesReportTble101" entity="ProductSalesReport"
@@ -79,6 +83,11 @@
 			var e = entityStore.getFirst("ActionEntity",
 					"action=VeggiesPriceListAction");
 			window.location = e["file"];
+		}
+		
+		function printOrders() {
+			var f = document.getElementById("psrFromDT").value;
+			window.open("/app/module/sales/PrintOrders.xhtml?fromDateTime="+f);
 		}
 	</script>
 

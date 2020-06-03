@@ -21,12 +21,12 @@
 		</c:filters> -->
 		<c:columns>
 			<c:column value="#{salesOrder.orderId}" label="Order No." width="120" />
-			<c:column value="#{salesOrder.deliveryAddressText}" label="Address"
-				width="190" />
 			<c:column value="#{salesOrder.deliveryAddress.name}" label="Name"
 				width="150" />
-			<c:column value="#{salesOrder.deliveryAddress.address.area.name}"
-				label="Location" width="150" />
+			<c:column value="#{salesOrder.deliveryAddressText}" label="Address"
+				width="190" />	
+			<c:column value="#{salesOrder.deliveryAddress.housingComplexAddress.block}-#{salesOrder.deliveryAddress.housingComplexAddress.number}"
+				label="Flat" width="150" />
 			<c:column value="#{salesOrder.createdOn}" label="Placed On"
 				width="140" />
 			<c:column value="#{salesOrder.paymentReceived}" label="Is Paid?"

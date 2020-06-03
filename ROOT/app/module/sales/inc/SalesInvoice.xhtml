@@ -75,7 +75,7 @@
 	</div>
 
 	<c:entityTable entity="SalesOrderLineItem"
-		filter="salesOrderId=#{salesOrder.id}" numberable="true"
+		filter="salesOrderId=#{salesOrder.id}&amp;orderBy=productLineItem.product.productCategory.parentId" numberable="true"
 		lifeCycle="none">
 		<c:columns>
 
