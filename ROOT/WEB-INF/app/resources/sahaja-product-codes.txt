@@ -1,3 +1,4 @@
+L019=Amla
 L017=Ash Gourd
 V001=Pumpkin
 V013=avarakai
@@ -9,7 +10,7 @@ V044=Chilli Bajji
 V046=Banana Stem
 V012=Beans Long
 V008=Beans Cluster
-V009=Beans Ring
+V009=Beans Nati
 V010=Beans Farm
 V038=Beetroot
 V003=Bitter Gourd

@@ -21,7 +21,11 @@
 	</div>
 	
 	<div style="margin: 10px 0 0 5px">
-		<a href="javascript:;" onclick="printOrders()">Print Orders</a>
+		<a href="javascript:;" onclick="printOrders()">Print Vegetable Orders</a>
+	</div>
+	
+	<div style="margin: 10px 0 0 5px">
+		<a href="javascript:;" onclick="printGroceryOrders()">Print Grocery Orders</a>
 	</div>
 
 	<h1>Fruits</h1>
@@ -88,6 +92,10 @@
 		function printOrders() {
 			var f = document.getElementById("psrFromDT").value;
 			window.open("/app/module/sales/PrintOrders.xhtml?fromDateTime="+f);
+		}
+		function printGroceryOrders() {
+			var f = document.getElementById("psrFromDT").value;
+			window.open("/app/module/sales/PrintGroceryOrders.xhtml?fromDateTime="+f);
 		}
 	</script>
 

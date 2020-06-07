@@ -50,6 +50,7 @@
 				<c:inputHidden value="#{salesOrder.code}" />
 				<div style="margin: 10px 0 0 5px">
 					<a href="javascript:;" onclick="printInvoice()">Print Invoice</a>
+					<a href="javascript:;" onclick="splitVeggies()">Split Veggies</a>
 				</div>
 				<c:panelGrid>
 					<c:panelGridSection title="Order Information" columns="3">
@@ -211,6 +212,20 @@
 			var orderId = document.getElementById("salesOrderForm")["salesOrder.id"].value;
 			window.open("/app/module/sales/PrintInvoice.xhtml?orderId="
 					+ orderId);
+		}
+		
+		function splitVeggies() {
+			var orderId = document.getElementById("salesOrderForm")["salesOrder.id"].value;
+			if (confirm("Do you really want to split the order")) {
+				try {
+				  var e = entityStore.get("SalesOrder", orderId, "splitVeggies");
+				  window.open("/app/module/sales/PrintInvoice.xhtml?orderId="
+						+ e["id"]);
+				} catch (e) {
+					alert(JSON.stringify(e));
+				}
+			}
+			
 		}
 		
 		
