@@ -73,7 +73,8 @@
 		<c:tab title="Product Items">
 			<c:entityTable entity="ProductLineItem" filter="product.id=#{product.id}&amp;category=regular" autoLoad="false">
 				<c:columns>
-					<c:column label="Item Id" value="#{productLineItem.code}" width="100" sortable="true" />
+				    <c:column label="Id" value="#{productLineItem.id}" width="50" sortable="true" />
+					<c:column label="Code" value="#{productLineItem.code}" width="100" sortable="true" />
 					<c:column label="Product Name" value="#{productLineItem.product.name}" width="200" sortable="true" />
 					<c:column label="quantity" value="#{productLineItem.quantity}" width="100" />
 					<c:column label="Unit Of Measure" value="#{productLineItem.unitOfMeasure.value}" width="70" />

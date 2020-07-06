@@ -1,0 +1,160 @@
+<div xmlns:c="app.ui.faces.component">
+	<h2>Customers</h2>
+
+	<c:entityTable entity="Customer" lifeCycle="none">
+		<c:columns>
+			<c:column label="Id" value="#{customer.id}" width="100" />
+			<c:column label="Name" value="#{customer.name}" width="250" />
+			<c:column label="Mobile" value="#{customer.mobile}" width="200" />
+			<c:column label="Email" value="#{customers.email}" />
+		</c:columns>
+	</c:entityTable>
+	<c:tabs binds="customer">
+		<c:tab title="Information">
+			<c:entityForm entity="Customer">
+				<c:inputHidden value="#{customer.userId}" />
+				<c:panelGrid columns="2" labelStyle="width:100px">
+					<c:inputText label="Name" value="#{customer.name}" />
+					<c:inputText label="Mobile" value="#{customer.mobile}" />
+					<c:inputText label="Email" value="#{customer.email}" />
+					<c:inputText label="Group Id" value="#{customer.group.id}"
+						req="false" />
+				</c:panelGrid>
+			</c:entityForm>
+		</c:tab>
+		<c:tab title="Address">
+
+			<c:entityTable entity="CustomerAddress"
+				filter="customerId=#{customer.id}" autoLoad="false" lifeCycle="none">
+				<c:columns>
+					<c:column label="Id" value="#{customerAddress.id}" width="100" />
+					<c:column label="Name" value="#{customerAddress.name}" width="250" />
+					<c:column label="Mobile" value="#{customerAddress.mobile}"
+						width="200" />
+					<c:column label="Alt Phone" value="#{customerAddress.altPhone}" />
+				</c:columns>
+			</c:entityTable>
+			<c:panelGroup binds="customerAddress" id="bpAddressPanel">
+				<c:entityForm entity="CustomerAddress">
+					<c:panelGrid>
+
+						<c:panelGridSection title="Customer Information" columns="3">
+							<c:inputText label="Name" value="#{customerAddress.name}" />
+							<c:inputText label="Mobile" value="#{customerAddress.mobile}"
+								required="true" />
+							<c:inputText label="Alternate Mobile"
+								value="#{customerAddress.altPhone}" />
+						</c:panelGridSection>
+
+						<c:panelGridSection title="Delivery Address - Hoousing Complex"
+							columns="3">
+							<c:inputText label="Name"
+								value="#{customerAddress.housingComplexAddress.housingComplex.name}"
+								req="false" />
+							<c:inputText label="Block"
+								value="#{customerAddress.housingComplexAddress.block}"
+								req="false" />
+							<c:inputText label="Flat Number"
+								value="#{customerAddress.housingComplexAddress.number}"
+								req="false" />
+							<c:inputText label="Address1"
+								value="#{customerAddress.housingComplexAddress.housingComplex.address.address}"
+								req="false" />
+							<c:inputText label="Landmark"
+								value="#{customerAddress.housingComplexAddress.housingComplex.address.landmark}"
+								req="false" />
+							<c:inputText label="City"
+								value="#{customerAddress.housingComplexAddress.housingComplex.address.city.name}"
+								req="false" />
+							<c:inputText label="State"
+								value="#{customerAddress.housingComplexAddress.housingComplex.address.state.name}"
+								req="false" />
+							<c:inputText label="Country"
+								value="#{customerAddress.housingComplexAddress.housingComplex.address.country.name}"
+								req="false" />
+							<c:inputText label="Pin"
+								value="#{customerAddress.housingComplexAddress.housingComplex.address.pinCode}"
+								req="false" />
+						</c:panelGridSection>
+						<c:panelGridSection title="Delivery Address" columns="3">
+							<c:inputText label="Address1"
+								value="#{customerAddress.address.address}" req="false" />
+							<c:inputText label="Landmark"
+								value="#{customerAddress.address.landmark}" req="false" />
+							<c:inputText label="City"
+								value="#{customerAddress.address.city.name}" req="false" />
+							<c:inputText label="State"
+								value="#{customerAddress.address.state.name}" req="false" />
+							<c:inputText label="Country"
+								value="#{customerAddress.address.country.name}" req="false" />
+							<c:inputText label="Pin"
+								value="#{customerAddress.address.pinCode}" req="false" />
+						</c:panelGridSection>
+					</c:panelGrid>
+				</c:entityForm>
+			</c:panelGroup>
+		</c:tab>
+		<c:tab title="Wallet">
+			<c:entityTable entity="CustomerWallet"
+				filter="customerId=#{customer.id}" lifeCycle="none" autoLoad="false">
+				<c:columns>
+					<c:column label="Amount" value="#{customerWallet.amount}"
+						width="100" />
+					<c:column label="Updated On" value="#{customerWallet.updatedOn}" />
+				</c:columns>
+			</c:entityTable>
+			<c:tabs binds="customerWallet">
+				<c:tab title="Information">
+					<c:entityForm entity="CustomerWallet">
+						<c:panelGrid columns="2" labelStyle="width:100px">
+							<c:inputText label="Amount" value="#{customerWallet.amount}" />
+							<c:inputText label="Updated On"
+								value="#{customerWallet.updatedOn}" />
+						</c:panelGrid>
+					</c:entityForm>
+				</c:tab>
+
+			</c:tabs>
+		</c:tab>
+
+		<c:tab title="Add to Wallet">
+			<c:entityTable entity="CustomerWalletAmount"
+				filter="customerId=#{customer.id}" lifeCycle="c" autoLoad="false">
+				<c:columns>
+					<c:column label="Amount" value="#{customerWalletAmount.amount}"
+						width="100" />
+				</c:columns>
+			</c:entityTable>
+			<c:panelGroup binds="customerWalletAmount">
+				<c:entityForm entity="CustomerWalletAmount">
+					<c:inputHidden value="#{customerWalletAmount.customerId}"
+						default="#{customer.id}" />
+					<c:panelGrid columns="2" labelStyle="width:100px">
+						<c:inputText label="Amount" value="#{customerWalletAmount.amount}" />
+					</c:panelGrid>
+				</c:entityForm>
+			</c:panelGroup>
+		</c:tab>
+
+		<c:tab title="Wallet History">
+			<c:entityTable entity="CustomerWalletHistory"
+				filter="customerId=#{customer.id}&amp;orderBy=createdOn"
+				lifeCycle="c" autoLoad="false">
+				<c:columns>
+					<c:column label="Prev Amount"
+						value="#{customerWalletHistory.prevAmount}" width="100" />
+					<c:column label="Amount Added"
+						value="#{customerWalletHistory.amountAdded}" width="100" />
+					<c:column label="Amount Deducted"
+						value="#{customerWalletHistory.amountDeducted}" width="100" />
+					<c:column label="Currrent Amount"
+						value="#{customerWalletHistory.currAmount}" width="100" />
+					<c:column label="Created On"
+						value="#{customerWalletHistory.createdOn}" width="200" />
+					<c:column label="Description"
+						value="#{customerWalletHistory.description}"/>
+				</c:columns>
+			</c:entityTable>
+		</c:tab>
+	</c:tabs>
+</div>

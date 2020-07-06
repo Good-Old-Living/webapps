@@ -1,0 +1,35 @@
+<c:template src="/WEB-INF/app/template/web/Customer.xml" xmlns:c="app.ui.faces.component">
+
+	<c:variable name="page.title" value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+
+		<c:entity name="Customer" filter="userId=#{session.E}" />
+		
+		<c:include src="store/cart/inc/Address.xhtml"/>
+
+<!-- 		<c:entityTable entity="CustomerAddress" filter="customerId=#{customer.id}" contentStyle="max-height:10000px;">
+			<c:columns>
+				<c:column label="Address" value="#{customerAddress.address.address}" width="250" />
+				<c:column label="Area" value="#{customerAddress.address.area.name}" width="200" />
+				<c:column label="City" value="#{customerAddress.address.city.name}" />
+			</c:columns>
+		</c:entityTable>
+
+		<c:panelGroup binds="customerAddress" id="bpAddressPanel">
+			<c:entityForm entity="CustomerAddress" style="background-color:#ffffff">
+				<c:inputHidden value="#{customerAddress.customerId}" default="#{customer.id}" />
+				<c:inputHidden value="#{customerAddress.address.id}" />
+				<c:panelGrid>
+					<c:inputTextarea label="Address" value="#{customerAddress.address.address}" />
+					<c:inputText label="Landmark" value="#{customerAddress.address.landmark}" />
+					<c:selectOneEntityMenu value="#{customerAddress.address.area.name}" label="Area" entity="CityArea" filter="cityId=1&amp;orderBy=name" />
+					<c:selectOneEntityMenu value="#{customerAddress.address.city.name}" label="City" entity="City" filter="countryId=1&amp;stateId=18" default="1" />
+					<c:selectOneEntityMenu value="#{customerAddress.address.state.name}" label="State" entity="State" filter="countryId=1" default="18" />
+					<c:selectOneEntityMenu value="#{customerAddress.address.country.name}" label="Country" entity="Country" default="1" />
+					<c:inputText label="Pin" value="#{customerAddress.address.pinCode}" length="6" regExp="^[0-9]+$" />
+				</c:panelGrid>
+			</c:entityForm>
+		</c:panelGroup>   -->
+	</c:parameter>
+</c:template>

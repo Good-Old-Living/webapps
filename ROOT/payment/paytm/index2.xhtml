@@ -1,0 +1,35 @@
+<html xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+   <head>
+      <title>Merchant Check Out Page</title>
+   </head>
+   <body>
+     <c:entity name="Customer" filter="userId=#{session.E}" />
+     <c:entity name="CustomerPayment" filter="customerId=#{customer.id}" />
+      <center>
+         <h1>Please do not refresh this page..</h1>
+      </center>
+      <form method="post" action="https://securegw-stage.paytm.in/order/process" name="paytm">
+         <table border="1">
+            <tbody>
+               <input type="text" name="MID" value="cmmYhT84098889283210"/>
+               <input type="text" name="WEBSITE" value="WEBSTAGING"/>
+               <input type="text" name="ORDER_ID" value="#{customerPayment.transactionId}"/>
+               <input type="text" name="CUST_ID" value="#{customerPayment.customerId}"/>
+               <input type="text" name="MOBILE_NO" value="#{customer.mobile}"/>
+               <input type="text" name="EMAIL" value="#{customer.email}"/>
+               <input type="text" name="INDUSTRY_TYPE_ID" value="Retail"/>
+               <input type="text" name="CHANNEL_ID" value="WEB"/>
+               <input type="text" name="TXN_AMOUNT" value="100.00"/>
+               <input type="text" name="CALLBACK_URL" value="https://www.goodoldliving.com/payment/response.jsp"/>
+               <input type="text" name="CHECKSUMHASH" value="#{customerPayment.checksum}"/>
+             <!--    <input type="text" name="PAYMENT_MODE_ONLY" value="YES"/>
+                <input type="text" name="AUTH_MODE" value="USRPWD"/>
+               <input type="text" name="PAYMENT_TYPE_ID" value="UPI"/>  -->
+            </tbody>
+         </table>
+         <script type="text/javascript">
+           document.paytm.submit();
+         </script>
+      </form>
+   </body>
+</html>

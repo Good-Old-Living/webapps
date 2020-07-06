@@ -1,0 +1,24 @@
+<c:template src="/WEB-INF/app/template/web/Customer.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<c:entity name="Customer" filter="userId=#{session.E}" />
+        <div style="margin-left:15px">
+        <p style="font-weight:bold">Please provide a value to load money into your wallet using <span style="font-size:130%">(#{customer.mobile})</span> </p>
+
+		<c:entityForm entity="CustomerPayment" name="CustomerPaymentt"
+			lifeCycle="none">
+			<c:inputHidden name="customerPayment.customerId" value="#{customer.id}"/>
+			<p>
+			<c:inputText value="#{customerPayment.amount}" required="true" />
+			</p>
+			<br/>
+         
+		</c:entityForm>
+      </div>
+
+	</c:parameter>
+</c:template>

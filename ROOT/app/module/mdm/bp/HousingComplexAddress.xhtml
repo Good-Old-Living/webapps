@@ -1,0 +1,32 @@
+<div xmlns:c="app.ui.faces.component">
+	<h2>Housing Complex Address</h2>
+
+	<c:entityTable entity="HousingComplexAddress" lifeCycle="none">
+		<c:columns>
+			<c:column label="Id" value="#{housingComplexAddress.id}" width="100" />
+			<c:column label="Name" value="#{housingComplexAddress.housingComplex.name}"
+				width="250" />
+			<c:column label="Flat No."
+				value="#{housingComplexAddress.block}-#{housingComplexAddress.number}" />
+		</c:columns>
+	</c:entityTable>
+
+	<c:panelGroup binds="housingComplexAddress" id="bpAddressPanel">
+		<c:entityForm entity="HousingComplexAddress">
+			<c:inputHidden value="#{housingComplexAddress.id}" />
+			<c:inputHidden value="#{housingComplexAddress.housingComplex.id}" />
+			<c:panelGrid>
+
+
+				<c:inputText label="Name"
+					value="#{housingComplexAddress.housingComplex.name}"
+					req="false" />
+				<c:inputText label="Block"
+					value="#{housingComplexAddress.block}" req="false" />
+				<c:inputText label="Flat Number"
+					value="#{housingComplexAddress.number}" req="false" />
+
+			</c:panelGrid>
+		</c:entityForm>
+	</c:panelGroup>
+</div>

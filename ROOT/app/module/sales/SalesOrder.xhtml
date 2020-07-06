@@ -202,6 +202,16 @@
 				</c:entityForm>
 			</c:panelGroup>
 		</c:tab>
+		<c:tab title="Wallet">
+			<c:entityTable entity="CustomerWallet"
+				filter="customerId=#{salesOrder.customerId}" lifeCycle="none" autoLoad="false">
+				<c:columns>
+					<c:column label="Amount" value="#{customerWallet.amount}"
+						width="100" />
+					<c:column label="Updated On" value="#{customerWallet.updatedOn}" />
+				</c:columns>
+			</c:entityTable>
+		</c:tab>
 	</c:tabs>
 
 	<iframe id="printFrame" name="printFrame" width="0" height="0"

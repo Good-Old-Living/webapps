@@ -14,8 +14,7 @@
 				<c:inputHidden value="#{customer.userId}" />
 				<c:panelGrid>
 
-					<c:inputText label="Name" value="#{customer.name}"
-						required="true" />
+					<c:inputText label="Name" value="#{customer.name}" required="true" />
 					<c:inputText label="Email" value="#{customer.email}"
 						regExp="[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" />
 					<c:inputText label="Mobile" value="#{customer.mobile}"
@@ -24,6 +23,21 @@
 				</c:panelGrid>
 
 			</c:entityForm>
+<!-- 
+
+			<h2>UPI Payment</h2>
+			    <c:entity name="Customer" filter="userId=#{session.E}" />
+				<c:entityForm entity="UPIPayment" var="upiPayment" style="background-color:#ffffff">
+					<c:inputHidden value="#{upiPayment.customerId}"
+						default="#{customer.id}" />
+					<c:panelGrid>
+						<c:selectOneEntityMenu value="#{upiPayment.provider.value}"
+							label="UPI Provider" entity="PropertyGroup"
+							filter="name=upi-provider" />
+						<c:inputText label="Name" value="#{upiPayment.name}" />
+						<c:inputText label="Mobile" value="#{upiPayment.mobile}" />
+					</c:panelGrid>
+				</c:entityForm> -->
 		</div>
 	</c:parameter>
 </c:template>

@@ -1,0 +1,1 @@
+Rs #{walletTransaction.amount} has been deducted from your wallet for the order #{walletTransaction.orderId}. Available balance is Rs. #{walletTransaction.balance} - Good Old Living

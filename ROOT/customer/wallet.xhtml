@@ -1,0 +1,39 @@
+<c:template src="/WEB-INF/app/template/web/Customer.xml"
+	xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+	<c:variable name="page.title"
+		value="Fresh and quality products at the best price" />
+
+	<c:parameter name="content">
+		<c:entity name="Customer" filter="userId=#{session.E}" />
+
+		<div id="custWallet" style="margin-left:10px;">
+			<h2>My Wallet</h2>
+			<c:entity name="CustomerWallet" filter="customerId=#{customer.id}" />
+
+			<p>
+				You have <span style="font-weight: bold; font-size: 130%">Rs
+					#{customerWallet.amount}</span> in your wallet
+			</p>
+
+            <h3>Transactions</h3>
+			<b:foreach entity="CustomerWalletHistory"
+				filter="customerId=#{customer.id}&amp;orderBy=createdOn&amp;isDesc=true">
+				<div style="border-bottom: 1px #cccccc solid">
+					<b:if condition="#{customerWalletHistory.amountAdded} != null">
+						<p>Loaded Rs #{customerWalletHistory.amountAdded} on #{customerWalletHistory.createdOn}</p>
+					</b:if>
+					<b:if condition="#{customerWalletHistory.amountDeducted} != null">
+						<p>Deducted Rs #{customerWalletHistory.amountDeducted} on #{customerWalletHistory.createdOn}</p>
+					</b:if>
+					<b:if condition="#{customerWalletHistory.description} != null">
+					     <p>Ref: #{customerWalletHistory.description}</p>
+					</b:if>
+					<p>Balance : Rs #{customerWalletHistory.currAmount}</p> 
+				</div>
+			</b:foreach>
+
+
+		</div>
+	</c:parameter>
+</c:template>
