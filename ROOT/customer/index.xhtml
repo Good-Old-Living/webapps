@@ -10,7 +10,7 @@
 		<c:entity name="Customer" filter="userId=#{session.E}" />
 		<div class="itemslist">
 			<b:foreach entity="SalesOrder"
-				filter="customerId=#{customer.id}&amp;orderBy=createdOn&amp;isDesc=true">
+				filter="customerId=#{customer.id}&amp;orderBy=createdOn&amp;isDesc=true&amp;pageSize=20">
 				<div id="so#{salesOrder.id}" salesOrderId="#{salesOrder.orderId}"
 					class="salesOrderListItem item">
 
@@ -23,6 +23,9 @@
 						</div>
 						<p>
 							Status: <span id="sos#{salesOrder.id}">#{salesOrder.state.status}</span>
+							<b:if condition="#{salesOrder.state.code} == 3">
+							   <button type="button" style="margin-top:0" onClick="initiatePayment(#{salesOrder.id})">Pay</button> 
+							</b:if>
 						</p>
 
 						<b:if condition="#{salesOrder.state.code} == 1">
@@ -38,5 +41,22 @@
 
 			</b:foreach>
 		</div>
+		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+		<script type="text/javascript">
+		
+		    function initiatePayment(soId) {
+		    	var so = entityStore.get("SalesOrder", soId);
+		    	var pMode = so["paymentMode"];
+		    	
+		    	if (pMode["id"] != 253) {
+		    		so = entityStore.get("SalesOrder", soId, "generateRazorPayOrderId");
+		    	}
+		    	
+		    	shoppingCart.paymentGateway(so, function(so) {
+		    		location.reload(); 
+		    	})
+		    	
+		    }
+		</script>
 	</c:parameter>
 </c:template>

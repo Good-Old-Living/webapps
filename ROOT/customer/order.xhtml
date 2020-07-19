@@ -54,8 +54,8 @@
 						</div>
 
 						<b:if condition="#{salesOrder.state.code} == 1">
-							<div class="buyDiv">
-								<div
+						<!--	<div class="buyDiv">
+							  	<div
 									onClick="salesOrder.decreaseItem('#{salesOrderLineItem.id}')"
 									class="rmCart buy" style="display: inline"
 									title="Remove From Bag" />
@@ -65,13 +65,13 @@
 									onchange="salesOrder.updateItem('#{salesOrderLineItem.productLineItem.id}',this.value)" />
 								<div
 									onClick="salesOrder.increaseItem('#{salesOrderLineItem.id}')"
-									class="addCart buy" title="Add To Bag" />
+									class="addCart buy" title="Add To Bag" /> -->
 								<div style="padding-top: 3px">
 									<a href="javascript:void()"
 										onclick="salesOrder.removeItem('#{salesOrderLineItem.id}')">REMOVE</a>
 								</div>
 								<div class="clr" />
-							</div>
+						<!-- 	</div>  -->
 						</b:if>
 						<div class="clr" />
 
@@ -99,6 +99,10 @@
 								<tr>
 									<td class="label">Total Price</td>
 									<td class="value">Rs #{salesOrderSummary.subTotal}</td>
+								</tr>
+								<tr>
+									<td class="label">Amount from wallet</td>
+									<td class="value">Rs #{salesOrderSummary.walletAmount}</td>
 								</tr>
 								<tr>
 									<td class="label">Delivery Charges</td>

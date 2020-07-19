@@ -5,17 +5,19 @@
 	<h1>Sales Orders</h1>
 
 	<c:panelGrid columns="2">
-	    <c:inputText id="custName" label="Name" value="#{salesOrder.deliveryAddress.name}"/>
+		<c:inputText id="custName" label="Name"
+			value="#{salesOrder.deliveryAddress.name}" />
 		<c:selectOneEntityMenu id="soStatusSelect" label="State"
 			value="#{salesOrder.state.status}" entity="AppEntityState"
-			filter="entity=SalesOrder"/>
-			
+			filter="entity=SalesOrder" />
+
 		<button onclick="searchSalesOrders()">Search</button>
 	</c:panelGrid>
 
 
 	<c:entityTable id="salesOrderTable" entity="SalesOrder"
-		filter="state.code=1&amp;orderBy=createdOn desc, orderId desc" lifeCycle="none">
+		filter="state.code=1&amp;orderBy=createdOn desc, orderId desc"
+		lifeCycle="none">
 		<!-- <c:filters>
 			<c:filter value="#{salesOrder.state.status}" label="Status" />
 		</c:filters> -->
@@ -24,8 +26,9 @@
 			<c:column value="#{salesOrder.deliveryAddress.name}" label="Name"
 				width="150" />
 			<c:column value="#{salesOrder.deliveryAddressText}" label="Address"
-				width="190" />	
-			<c:column value="#{salesOrder.deliveryAddress.housingComplexAddress.block}-#{salesOrder.deliveryAddress.housingComplexAddress.number}"
+				width="190" />
+			<c:column
+				value="#{salesOrder.deliveryAddress.housingComplexAddress.block}-#{salesOrder.deliveryAddress.housingComplexAddress.number}"
 				label="Flat" width="150" />
 			<c:column value="#{salesOrder.createdOn}" label="Placed On"
 				width="140" />
@@ -45,23 +48,37 @@
 				<c:inputHidden value="#{salesOrder.sessionId}" />
 				<c:inputHidden value="#{salesOrder.deliveryAddress.id}" />
 				<c:inputHidden value="#{salesOrder.createdOn}" />
-				<c:inputHidden value="#{salesOrder.paymentMethod.id}" />
+				<c:inputHidden value="#{salesOrder.paymentMode.id}" />
+				<c:inputHidden value="#{salesOrder.paymentOrderId}" />
+				<c:inputHidden value="#{salesOrder.paymentId}" />
+				<c:inputHidden value="#{salesOrder.paymentTransaction.id}" />
 				<c:inputHidden value="#{salesOrder.amount}" />
 				<c:inputHidden value="#{salesOrder.code}" />
 				<div style="margin: 10px 0 0 5px">
-					<a href="javascript:;" onclick="printInvoice()">Print Invoice</a>
-					<a href="javascript:;" onclick="splitVeggies()">Split Veggies</a>
+					<a href="javascript:;" onclick="printInvoice()">Print Invoice</a> <a
+						href="javascript:;" onclick="splitVeggies()">Split Veggies</a>
 				</div>
 				<c:panelGrid>
 					<c:panelGridSection title="Order Information" columns="3">
 						<c:inputText label="Total Amount" value="#{salesOrder.amount}" />
-						<c:selectBooleanCheckBox label="Is Paid"
-							value="#{salesOrder.paymentReceived}" />
 						<c:inputTextarea label="Delivery Instructions"
 							value="#{salesOrder.deliveryInstructions}" />
+						<c:selectBooleanCheckBox label="Is Paid"
+							value="#{salesOrder.paymentReceived}" />
+						<c:selectOneEntityMenu label="Payment Mode"
+							value="#{salesOrder.paymentMode.value}" entity="PropertyGroup"
+							filter="name=payment-mode" />
+						<c:inputText label="Payment Id" value="#{salesOrder.paymentId}" />
+						<c:inputText label="Payment Order Id" value="#{salesOrder.paymentOrderId}" />	
 						<c:selectOneEntityMenu label="State"
 							value="#{salesOrder.state.status}" entity="AppEntityState"
 							filter="entity=SalesOrder" />
+					</c:panelGridSection>
+					<c:panelGridSection title="Payment Transaction" columns="3">
+						<c:inputText label="Amount deducted from Wallet"
+							value="#{salesOrder.paymentTransaction.walletAmountDeducted}" />
+						<c:inputText label="Amount added to Wallet"
+							value="#{salesOrder.paymentTransaction.walletAmountAdded}"/>
 					</c:panelGridSection>
 					<c:panelGridSection title="Customer Information" columns="3">
 						<c:inputTextarea label="Delivery Address"
@@ -204,7 +221,8 @@
 		</c:tab>
 		<c:tab title="Wallet">
 			<c:entityTable entity="CustomerWallet"
-				filter="customerId=#{salesOrder.customerId}" lifeCycle="none" autoLoad="false">
+				filter="customerId=#{salesOrder.customerId}" lifeCycle="none"
+				autoLoad="false">
 				<c:columns>
 					<c:column label="Amount" value="#{customerWallet.amount}"
 						width="100" />
@@ -217,30 +235,29 @@
 	<iframe id="printFrame" name="printFrame" width="0" height="0"
 		style="border: 0"></iframe>
 	<script type="text/javascript">
-	
 		function printInvoice() {
 			var orderId = document.getElementById("salesOrderForm")["salesOrder.id"].value;
 			window.open("/app/module/sales/PrintInvoice.xhtml?orderId="
 					+ orderId);
 		}
-		
+
 		function splitVeggies() {
 			var orderId = document.getElementById("salesOrderForm")["salesOrder.id"].value;
 			if (confirm("Do you really want to split the order")) {
 				try {
-				  var e = entityStore.get("SalesOrder", orderId, "splitVeggies");
-				  window.open("/app/module/sales/PrintInvoice.xhtml?orderId="
-						+ e["id"]);
+					var e = entityStore.get("SalesOrder", orderId,
+							"splitVeggies");
+					window.open("/app/module/sales/PrintInvoice.xhtml?orderId="
+							+ e["id"]);
 				} catch (e) {
 					alert(JSON.stringify(e));
 				}
 			}
-			
+
 		}
-		
-		
+
 		function searchSalesOrders() {
-			
+
 			var n = document.getElementById("custName");
 			var s = document.getElementById("soStatusSelect");
 			var code = s.options[s.selectedIndex].value;
@@ -248,12 +265,12 @@
 			var f = "";
 
 			if (sys.isValid(n.value)) {
-				f = "deliveryAddress.name=%5Blike%5D"+n.value+"&amp;";
+				f = "deliveryAddress.name=%5Blike%5D" + n.value + "&amp;";
 			}
 			if (sys.isValid(code)) {
-			  f = f+"state.id="+code+"&amp;";
+				f = f + "state.id=" + code + "&amp;";
 			}
-			var f = f+"orderBy=createdOn desc, orderId desc";
+			var f = f + "orderBy=createdOn desc, orderId desc";
 			t.uiComp.load(f);
 		}
 	</script>

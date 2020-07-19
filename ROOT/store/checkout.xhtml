@@ -5,6 +5,7 @@
 		value="Fresh and quality products at the best price" />
 
 	<c:parameter name="content">
+		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 		<div id="checkoutPage">
 			<h1>Checkout</h1>
 			<c:entity name="Customer" filter="userId=#{session.E}" />
@@ -12,12 +13,36 @@
 			<div id="checkoutWz">
 
 				<c:include src="/store/cart/inc/Address.xhtml" />
-				
-				
-				<c:panelGroup title="Delivery Instructions, if any">
-				   <textarea id="delIntsInput"/>
+
+				<c:panelGroup title="Select a payment method">
+				    <div class="imp">If Grand Total is 0, then you can skip this step.</div>
+					<p>
+						<input type="radio" id="pmcod" name="paymentMethod" value="251"
+							onClick="customerAddressListener.onPaymentMethodSelect(251)" /> <label
+							for="pmcod">Cash On Delivery</label>
+					</p>
+					<p>
+						<input type="radio" id="pmgpay" name="paymentMethod" value="252"
+							onClick="customerAddressListener.onPaymentMethodSelect(252)" /> <label
+							for="pmcod">GPay</label>
+					<div>
+						Please pay the order amount to 9880960654 (Kiruthiga) and specify the last 4 digit of
+						GPay transaction id <input type="text" id="pmgpayTrasId" />
+					</div>
+					</p>
+					<p>
+						<input type="radio" id="pmpg" name="paymentMethod" value="253"
+							onClick="customerAddressListener.onPaymentMethodSelect(253)" /> <label
+							for="pmpg">Credit Card/Debit Cart/Net Banking</label>
+					</p>
 				</c:panelGroup>
-				<div class="clr"/>
+
+
+
+				<c:panelGroup title="Delivery Instructions, if any">
+					<textarea id="delIntsInput" />
+				</c:panelGroup>
+				<div class="clr" />
 				<!-- <c:panelGroup title="Delivery Slot">
 					<c:panelGrid>
 						<c:inputDate label="Delivery Date" value="" />
@@ -26,10 +51,6 @@
 							entity="DeliveryTimeSlot" />
 					</c:panelGrid>
 				</c:panelGroup>  -->
-				
-				<c:panelGroup title="Payment">
-					<c:include src="/store/cart/inc/Payment.xhtml" />
-				</c:panelGroup>
 
 				<div class="clr" />
 				<div class="ralign">
@@ -49,8 +70,12 @@
 						id="delAddressId" />
 					<c:inputHidden value="#{salesOrder.customerId}"
 						default="#{customer.id}" id="delCustId" />
-					<c:inputHidden value="#{salesOrder.paymentMethod.id}" default="1" />
-					<c:inputHidden value="#{salesOrder.deliveryInstructions}" id="delInsts" />
+					<c:inputHidden value="#{salesOrder.paymentMode.id}"
+						id="payMethodId" />
+						<c:inputHidden value="#{salesOrder.paymentId}"
+						id="paymentId" />
+					<c:inputHidden value="#{salesOrder.deliveryInstructions}"
+						id="delInsts" />
 
 					<c:entityTable id="orderSummaryTable" entity="ShoppingCartLineItem"
 						title="Order Summary" class="shoppingCartTable"
@@ -69,7 +94,10 @@
 						</c:columns>
 					</c:entityTable>
 					<c:entity name="SessionShoppingCart" entityId="-1">
-						<div class="grandTotal">Grand Total : Rs
+					    
+					    <div style="margin:5px 0;text-align:right">Amount from Wallet : Rs
+							#{sessionShoppingCart.walletAmount}</div>
+						<div class="grandTotal" id="grandTotal" amount="#{sessionShoppingCart.grandTotal}">Grand Total : Rs
 							#{sessionShoppingCart.grandTotal}</div>
 					</c:entity>
 

@@ -15,7 +15,7 @@
 				You have <span style="font-weight: bold; font-size: 130%">Rs
 					#{customerWallet.amount}</span> in your wallet
 			</p>
-
+			
             <h3>Transactions</h3>
 			<b:foreach entity="CustomerWalletHistory"
 				filter="customerId=#{customer.id}&amp;orderBy=createdOn&amp;isDesc=true">
@@ -35,5 +35,7 @@
 
 
 		</div>
+		
+		
 	</c:parameter>
 </c:template>

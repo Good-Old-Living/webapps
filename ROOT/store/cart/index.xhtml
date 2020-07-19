@@ -113,6 +113,11 @@
 								<td class="value">Rs #{sessionShoppingCart.subTotal}</td>
 							</tr>
 							<tr>
+								<td class="label">Amount from Wallet</td>
+								<td class="value">Rs #{sessionShoppingCart.walletAmount}</td>
+							</tr>
+							
+							<tr>
 								<td class="label">Delivery Charges</td>
 								<td class="value">Rs #{sessionShoppingCart.deliveryCharge}</td>
 							</tr>
@@ -122,6 +127,7 @@
 									<td class="value">Rs #{sessionShoppingCart.savings}</td>
 								</tr>
 							</b:if>
+							
 						</tbody>
 					</table>
 

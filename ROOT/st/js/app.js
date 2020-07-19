@@ -3750,7 +3750,70 @@ var shoppingCart = {
 		account.loginAndRedirectTo(url);
 	},
 
+	paymentGateway : function(so, callback) {
+		var c = entityStore.get("Customer", so["customerId"]);
+		var options = {
+			//"key" : "rzp_live_CxssayBNYmb52G",
+			"key" : "rzp_test_SCdWZZP1AeijOH",
+			"amount" : so["amount"] + "00",
+			"currency" : "INR",
+			"name" : "Good Old Living",
+			"description" : so["transactionId"],
+			"image" : "https://goodoldliving.com/st/img/logo.png",
+			"order_id" : so["paymentOrderId"], // This is a sample Order
+			// ID. Pass the `id`
+			// obtained in the response
+			// of Step 1
+			"handler" : function(response) {
+				if (sys.isValid(response.error)) {
+					alert(response.error.description);
+				} else {
+					var p = {};
+					p["paymentId"] = response.razorpay_payment_id;
+					p["customerId"] = so["customerId"];
+					p["paymentOrderId"] = response.razorpay_order_id;
+					try {
+						entityStore.save("SalesOrderPayment", p);
+						// shoppingCart.onSalesOrderSuccess(so);
+						callback(so);
+					} catch (e) {
+						if (e.error) {
+							alert(e.error);
+						} else
+							alert(e);
+						window.location = APP_HOME + "store/cart/";
+					}
+				}
+			},
+			"modal" : {
+				"ondismiss" : function() {
+					alert("You have closed the payment wndow, but your order has been created in our system in 'Pending Paument' state. You can go to 'My Account' and pay the amount to process your order.");
+					window.location = "/customer/";
+				}
+			},
+			"prefill" : {
+				"name" : c["name"],
+				"email" : c["email"],
+				"contact" : c["mobile"]
+			}
+		};
+		var rzp = new Razorpay(options);
+		rzp.open();
+
+	},
+
+	onSalesOrderSuccess : function(s) {
+		var so = {};
+		so["salesOrder"] = s;
+		var s = el
+				.substitute(
+						"Your order <a href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a> has been successfully created. We will deliver it after 5PM today, if it was placed before 5PM or as per the delivery instructions.",
+						so);
+		$("#checkoutPage").html("<p class='message'>" + s + "</p");
+	},
+
 	submitOrder : function() {
+
 		var sof = document.getElementById("salesOrderForm");
 		// Hack - need to look
 		var delCustId = document.getElementById("delCustId");
@@ -3762,6 +3825,33 @@ var shoppingCart = {
 			return;
 		}
 
+		var grandTotal = document.getElementById("grandTotal").getAttribute(
+				"amount");
+
+		var pMode = document.getElementById("payMethodId");
+		if (grandTotal == 0) {
+			pMode.value = 254;
+		} else {
+			if (!sys.isValid(pMode.value)) {
+				ui.messageBox.show("Please select a payment method");
+				return;
+			}
+
+			if (pMode.value == 252) {
+				var pId = document.getElementById("paymentId").value;
+				if (!sys.isValid(pId)) {
+
+					pId = document.getElementById("pmgpayTrasId").value;
+
+					if (!sys.isValid(pId)) {
+						ui.messageBox
+								.show("Please provide the last 4 digits of GPay transaction id");
+						return;
+					}
+					document.getElementById("paymentId").value = pId;
+				}
+			}
+		}
 		var delInsts = document.getElementById("delInsts");
 		delInsts.value = document.getElementById("delIntsInput").value;
 
@@ -3769,26 +3859,23 @@ var shoppingCart = {
 			var r = sof.uiComp.submit();
 			this.clear();
 
-			var so = {};
-			if (sys.isValid(r.message) && r.message == "OrderMerged") {
+			if (pMode.value == 253) {
 
-				so["salesOrder"] = r.entity;
-				var s = el
-						.substitute(
-								"<span style='color: red; font-weight: bold'>Your order has been merged with an existing open order <a href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a></span>",
-								so);
-
-			} else {
+				var so = {};
 				so["salesOrder"] = r;
 				var s = el
 						.substitute(
-								"Your order <a href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a> has been successfully created. We will deliver it after 5PM today, if it was placed before 5PM or as per the delivery instructions.",
+								"Processing the payment for the order <a href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a>...",
 								so);
+				$("#checkoutPage").html("<p class='message'>" + s + "</p");
 
+				this.paymentGateway(r, this.onSalesOrderSuccess);
+			} else {
+				this.onSalesOrderSuccess(r);
 			}
-			$("#checkoutPage").html("<p class='message'>" + s + "</p");
 
 		} catch (e) {
+			alert(e);
 			window.location = APP_HOME + "store/cart/";
 		}
 
@@ -3881,6 +3968,10 @@ var customerAddressListener = {
 			var v = el.substitute(t, a, true);
 			$("#hcAddress").text(v);
 		}
+	},
+
+	onPaymentMethodSelect : function(payId) {
+		document.getElementById("payMethodId").value = payId;
 	}
 
 }

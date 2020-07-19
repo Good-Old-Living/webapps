@@ -1,0 +1,40 @@
+<html xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+   <head>
+      <title>Merchant Check Out Page</title>
+   </head>
+   <body>
+     <c:entity name="Customer" filter="userId=#{session.E}" />
+     <c:entity name="RazorPayPayment" filter="customerId=#{customer.id}" />
+     
+     <button id="rzp-button1">Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_live_CxssayBNYmb52G",
+    "amount": "#{razorPayPayment.amount}00", 
+    "currency": "INR",
+    "name": "Good Old Living",
+    "description": "Wallet Load",
+    "image": "https://goodoldliving.com/st/img/logo.png",
+    "order_id": "#{razorPayPayment.orderId}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature)
+    },
+    "prefill": {
+        "name": "#{customer.name}",
+        "email": "#{customer.email}",
+        "contact": "#{customer.mobile}"
+    }
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+     
+     
+   </body>
+</html>

@@ -97,7 +97,11 @@
 		<table cellspacing="0" cellpadding="0">
 			<tr>
 				<td align="right" class="label">Net Value</td>
-				<td align="right">#{salesOrderSummary.grandTotal}</td>
+				<td align="right">#{salesOrderSummary.subTotal}</td>
+			</tr>
+			<tr>
+				<td align="right" class="label">Amount from Wallet</td>
+				<td align="right">#{salesOrderSummary.walletAmount}</td>
 			</tr>
 			<tr>
 				<td align="right" class="label">Delivery Charges</td>
@@ -105,7 +109,7 @@
 			</tr>
 			<tr>
 				<td align="right" class="label last">Total</td>
-				<td align="right" class="last" style="font-size:130%;font-weight:bold">#{salesOrderSummary.totalAmount}</td>
+				<td align="right" class="last" style="font-size:130%;font-weight:bold">#{salesOrderSummary.grandTotal}</td>
 			</tr>
 		</table>
 	</div>

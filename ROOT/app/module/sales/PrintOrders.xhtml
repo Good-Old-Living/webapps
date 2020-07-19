@@ -16,13 +16,13 @@
 							condition="#{salesOrder.deliveryAddress.housingComplexAddress} == null">
 							<div>
 								<p>#{salesOrder.deliveryAddress.address.address}
-									#{salesOrder.deliveryAddress.name}</p>
+									#{salesOrder.deliveryAddress.name}  [#{salesOrder.paymentReceived}]</p>
 							</div>
 							<b:else>
 								<div>
 									<p>#{salesOrder.deliveryAddress.housingComplexAddress.block}
 										- #{salesOrder.deliveryAddress.housingComplexAddress.number}
-										#{salesOrder.deliveryAddress.name}</p>
+										#{salesOrder.deliveryAddress.name} [#{salesOrder.paymentReceived}]</p>
 								</div>
 							</b:else>
 						</b:if>
@@ -31,7 +31,7 @@
 						<b:if condition="#{salesOrder.deliveryAddressText} == null">
 
 							<b:else>
-								<p>#{salesOrder.deliveryAddressText}</p>
+								<p>#{salesOrder.deliveryAddressText} [#{salesOrder.paymentReceived}]</p>
 							</b:else>
 						</b:if>
 					</b:else>
