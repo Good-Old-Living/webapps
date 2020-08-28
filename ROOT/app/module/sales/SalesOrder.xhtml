@@ -61,6 +61,7 @@
 				<c:panelGrid>
 					<c:panelGridSection title="Order Information" columns="3">
 						<c:inputText label="Total Amount" value="#{salesOrder.amount}" />
+						<c:inputText label="Amount Paid" value="#{salesOrder.amountPaid}" />
 						<c:inputTextarea label="Delivery Instructions"
 							value="#{salesOrder.deliveryInstructions}" />
 						<c:selectBooleanCheckBox label="Is Paid"
@@ -230,6 +231,25 @@
 				</c:columns>
 			</c:entityTable>
 		</c:tab>
+		<c:tab title="Add to Wallet">
+			<c:entityTable entity="CustomerWalletAmount"
+				filter="customerId=#{salesOrder.customerId}" lifeCycle="c" autoLoad="false">
+				<c:columns>
+					<c:column label="Amount" value="#{customerWalletAmount.amount}"
+						width="100" />
+				</c:columns>
+			</c:entityTable>
+			<c:panelGroup binds="customerWalletAmount">
+				<c:entityForm entity="CustomerWalletAmount">
+					<c:inputHidden value="#{customerWalletAmount.customerId}"
+						default="#{salesOrder.customerId}" />
+					<c:panelGrid columns="2" labelStyle="width:100px">
+						<c:inputText label="Amount" value="#{customerWalletAmount.amount}" />
+						<c:inputText label="Description" value="#{customerWalletAmount.description}" />
+					</c:panelGrid>
+				</c:entityForm>
+			</c:panelGroup>
+		</c:tab>
 	</c:tabs>
 
 	<iframe id="printFrame" name="printFrame" width="0" height="0"
@@ -270,7 +290,7 @@
 			if (sys.isValid(code)) {
 				f = f + "state.id=" + code + "&amp;";
 			}
-			var f = f + "orderBy=createdOn desc, orderId desc";
+			var f = f + "pageSize=500&amp;orderBy=createdOn desc, orderId desc";
 			t.uiComp.load(f);
 		}
 	</script>

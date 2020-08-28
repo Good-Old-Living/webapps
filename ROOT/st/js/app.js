@@ -731,6 +731,13 @@ var sys = {
 			msg = ex;
 		alert(msg);
 	},
+	alertError : function(e) {
+
+		if (sys.isValid(e["error"])) 
+			alert(e["error"]);
+		else 
+			alert(e);
+	},
 	
 	print : function (obj) {
 		alert(JSON.stringify(obj,null,2));
@@ -3753,17 +3760,14 @@ var shoppingCart = {
 	paymentGateway : function(so, callback) {
 		var c = entityStore.get("Customer", so["customerId"]);
 		var options = {
-			//"key" : "rzp_live_CxssayBNYmb52G",
-			"key" : "rzp_test_SCdWZZP1AeijOH",
+		    "key" : "rzp_live_CxssayBNYmb52G",
+			//"key" : "rzp_test_SCdWZZP1AeijOH",
 			"amount" : so["amount"] + "00",
 			"currency" : "INR",
 			"name" : "Good Old Living",
 			"description" : so["transactionId"],
 			"image" : "https://goodoldliving.com/st/img/logo.png",
-			"order_id" : so["paymentOrderId"], // This is a sample Order
-			// ID. Pass the `id`
-			// obtained in the response
-			// of Step 1
+			"order_id" : so["paymentOrderId"],
 			"handler" : function(response) {
 				if (sys.isValid(response.error)) {
 					alert(response.error.description);
@@ -3773,22 +3777,27 @@ var shoppingCart = {
 					p["customerId"] = so["customerId"];
 					p["paymentOrderId"] = response.razorpay_order_id;
 					try {
-						entityStore.save("SalesOrderPayment", p);
+
+						document.getElementById("paymentTransId").value = so["transactionId"];
+						document.getElementById("paymentId").value = response.razorpay_payment_id;
+						document.getElementById("paymentOrderId").value = response.razorpay_order_id;
+						shoppingCart.submitOrder();
+						// entityStore.save("SalesOrderPayment", p);
 						// shoppingCart.onSalesOrderSuccess(so);
-						callback(so);
+						// callback(so);
 					} catch (e) {
-						if (e.error) {
-							alert(e.error);
-						} else
-							alert(e);
-						window.location = APP_HOME + "store/cart/";
+						sys.alertError(e);
 					}
 				}
 			},
 			"modal" : {
 				"ondismiss" : function() {
-					alert("You have closed the payment wndow, but your order has been created in our system in 'Pending Paument' state. You can go to 'My Account' and pay the amount to process your order.");
-					window.location = "/customer/";
+					// alert("You have closed the payment wndow, but your order
+					// has been created in
+					// our system in 'Pending Paument' state. You can go to 'My
+					// Account' and pay the
+					// amount to process your order.");
+					// window.location = "/customer/";
 				}
 			},
 			"prefill" : {
@@ -3803,15 +3812,25 @@ var shoppingCart = {
 	},
 
 	onSalesOrderSuccess : function(s) {
-		var so = {};
-		so["salesOrder"] = s;
-		var s = el
-				.substitute(
-						"Your order <a href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a> has been successfully created. We will deliver it after 5PM today, if it was placed before 5PM or as per the delivery instructions.",
-						so);
-		$("#checkoutPage").html("<p class='message'>" + s + "</p");
+		
+		try {
+			location.replace("/store/order.xhtml?oi=" + s["orderId"]);
+		} catch (e) {
+			var so = {};
+			so["salesOrder"] = s;
+			var s = el
+					.substitute(
+							"Your order <a href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a> has been successfully created. We will deliver it after 5PM today, if it was placed before 5PM or as per the delivery instructions.",
+							so);
+			$("#checkoutPage").html("<p class='message'>" + s + "</p");
+		}
 	},
 
+	getTotalAmount : function() {
+		return document.getElementById("grandTotal").getAttribute(
+		"amount");
+	},
+	
 	submitOrder : function() {
 
 		var sof = document.getElementById("salesOrderForm");
@@ -3825,8 +3844,7 @@ var shoppingCart = {
 			return;
 		}
 
-		var grandTotal = document.getElementById("grandTotal").getAttribute(
-				"amount");
+		var grandTotal = this.getTotalAmount();
 
 		var pMode = document.getElementById("payMethodId");
 		if (grandTotal == 0) {
@@ -3851,6 +3869,15 @@ var shoppingCart = {
 					document.getElementById("paymentId").value = pId;
 				}
 			}
+
+			else if (pMode.value == 253) {
+				if (!sys.isValid(document.getElementById("paymentId").value)) {
+					ui.messageBox
+							.show("Please complete the payment or choose a different payment method");
+					return;
+				}
+
+			}
 		}
 		var delInsts = document.getElementById("delInsts");
 		delInsts.value = document.getElementById("delIntsInput").value;
@@ -3859,23 +3886,24 @@ var shoppingCart = {
 			var r = sof.uiComp.submit();
 			this.clear();
 
-			if (pMode.value == 253) {
+			// if (pMode.value == 253) {
 
-				var so = {};
-				so["salesOrder"] = r;
-				var s = el
-						.substitute(
-								"Processing the payment for the order <a href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a>...",
-								so);
-				$("#checkoutPage").html("<p class='message'>" + s + "</p");
-
-				this.paymentGateway(r, this.onSalesOrderSuccess);
-			} else {
-				this.onSalesOrderSuccess(r);
-			}
+			// var so = {};
+			// so["salesOrder"] = r;
+			// var s = el
+			// .substitute(
+			// "Processing the payment for the order <a
+			// href='/customer/order.xhtml?no=#{salesOrder.id}'>#{salesOrder.orderId}</a>...",
+			// so);
+			// $("#checkoutPage").html("<p class='message'>" + s + "</p");
+			//
+			// this.paymentGateway(r, this.onSalesOrderSuccess);
+			// } else {
+			this.onSalesOrderSuccess(r);
+			// }
 
 		} catch (e) {
-			alert(e);
+			sys.alertError(e);
 			window.location = APP_HOME + "store/cart/";
 		}
 
@@ -3972,6 +4000,28 @@ var customerAddressListener = {
 
 	onPaymentMethodSelect : function(payId) {
 		document.getElementById("payMethodId").value = payId;
+
+		if (payId == 253) {
+			
+			$("#poButton").hide();
+			
+			var t = {};
+			t["amount"] = shoppingCart.getTotalAmount();
+			try {
+				var r = entityStore.save("RazorPayTransaction", t);
+				var cId = document.getElementById("orderSummary").getAttribute(
+						"customerId");
+				r["customerId"] = cId;
+				shoppingCart
+						.paymentGateway(r, shoppingCart.onSalesOrderSuccess);
+			} catch (e) {
+				sys.alertError(e);
+			}
+		}
+		else {
+			$("#poButton").show();
+		}
+
 	}
 
 }

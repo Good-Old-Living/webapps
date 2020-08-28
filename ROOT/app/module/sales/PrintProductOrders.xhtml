@@ -1,0 +1,101 @@
+<html xmlns:c="app.ui.faces.component" xmlns:b="app.ui.faces.block">
+
+<c:include src="/WEB-INF/app/template/web/inc/HtmlHead.xhtml" />
+
+<body onload="self.focus();self.print();" id="printOrders" class="invoice"
+	style="border: 0">
+<ol id="orderList">
+	<b:foreach entity="SalesOrder"
+		filter="state.id=[in]1,2,4&amp;customOrderBy=block">
+		
+		<li style="float: left; width:48%">
+		  
+			<div style="font-size: 110%; font-weight: bold">
+				<b:if condition="#{salesOrder.deliveryAddressText} == null">
+					<div>
+						<b:if
+							condition="#{salesOrder.deliveryAddress.housingComplexAddress} == null">
+							<div>
+								<p>#{salesOrder.deliveryAddress.address.address}  [#{salesOrder.paymentReceived}]</p>
+							</div>
+							<b:else>
+								<div>
+									<p>#{salesOrder.deliveryAddress.housingComplexAddress.block}
+										- #{salesOrder.deliveryAddress.housingComplexAddress.number}
+										  [#{salesOrder.paymentReceived}]</p>
+								</div>
+							</b:else>
+						</b:if>
+					</div>
+					<b:else>
+						<b:if condition="#{salesOrder.deliveryAddressText} == null">
+
+							<b:else>
+								<p>#{salesOrder.deliveryAddressText}   [#{salesOrder.paymentReceived}]</p>
+							</b:else>
+						</b:if>
+					</b:else>
+				</b:if>
+			</div>
+
+			<div style="margin-left: 20px;">
+<!--				<b:foreach entity="SalesOrderLineItem"
+					filter="salesOrderId=#{salesOrder.id}&amp;productLineItem.product.productCategory.id=[>]103&amp;orderBy=productLineItem.product.productCategory.id, productLineItem.product.name">
+--> <b:foreach entity="SalesOrderLineItem"
+					filter="salesOrderId=#{salesOrder.id}&amp;productLineItem.product.productCategory.id=#{query.prdCatId}&amp;orderBy=productLineItem.product.productCategory.id, productLineItem.product.name">
+ 
+					<p>#{salesOrderLineItem.productLineItem.product.brand}
+						#{salesOrderLineItem.productLineItem.product.name}
+						#{salesOrderLineItem.productLineItem.quantity}
+						#{salesOrderLineItem.productLineItem.unitOfMeasure.value} -
+						#{salesOrderLineItem.quantity} 
+						 - #{salesOrderLineItem.totalPrice}</p>
+				</b:foreach>
+				
+			</div>
+			 <c:entity name="SalesOrderSummary" entityId="#{salesOrder.id}" />
+			<div>
+				<b:if condition="#{salesOrder.deliveryAddressText} == null">
+					<div>
+						<b:if
+							condition="#{salesOrder.deliveryAddress.housingComplexAddress} == null">
+							<div>
+								<p>#{salesOrder.deliveryAddress.address.address}<span style="margin-left:10px">Rs #{salesOrderSummary.totalAmount}</span></p>
+							</div>
+							<b:else>
+								<div>
+									<p>#{salesOrder.deliveryAddress.housingComplexAddress.block}
+										- #{salesOrder.deliveryAddress.housingComplexAddress.number}
+										 <span style="margin-left:10px">Rs #{salesOrderSummary.totalAmount}</span>
+									</p>
+								</div>
+							</b:else>
+						</b:if>
+					</div>
+					<b:else>
+						<b:if condition="#{salesOrder.deliveryAddressText} == null">
+
+							<b:else>
+								<p>#{salesOrder.deliveryAddressText} <span style="margin-left:10px">Rs #{salesOrderSummary.totalAmount}</span></p>
+							</b:else>
+						</b:if>
+					</b:else>
+				</b:if>
+			</div>
+		</li>
+	
+	</b:foreach>
+
+	</ol>
+	<SCRIPT type="text/javascript">
+	    (function () {
+		  
+	    	var divs = document.getElementsByClassName("noEntityMsg");
+	    	for (var i = 0, nd; nd = divs[i++];) {
+	    		nd.parentNode.parentNode.style.display = 'none';
+	    	}
+	    	
+		})();
+	</SCRIPT>
+</body>
+</html>

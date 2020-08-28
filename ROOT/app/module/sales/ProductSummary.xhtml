@@ -1,0 +1,49 @@
+
+<div xmlns:c="app.ui.faces.component">
+
+	<p>From Date Time</p>
+	<input id="psrFromDT" name="fromDateTime"
+		value="23-07-2020 12:01:00 AM" />
+		<input id="prdCatId" name="prdId" />
+	<button onclick="onReportInput()">Load</button>
+	<br />
+
+<div style="margin: 10px 0 0 5px">
+		<a href="javascript:;" onclick="printOrders()">Print Orders</a>
+	</div>
+	
+
+	<h1>Products</h1>
+	<c:entityTable id="prdSalesReportTble" entity="ProductSalesReport"
+		filter="fromDateTime=02-10-2019 02:45:35 PM&amp;orderBy=product.name"
+		lifeCycle="none" autoLoad="false">
+		<c:columns>
+			<c:column value="#{productSalesReport.product.name}" label="Product"
+				width="300" />
+			<c:column value="#{productSalesReport.quantity}" label="Quantity" />
+		</c:columns>
+	</c:entityTable>
+	
+	<script type="text/javascript">
+		function onReportInput() {
+			var f = document.getElementById("psrFromDT").value;
+			loadReport(document.getElementById("prdCatId").value, f);
+		}
+
+		function loadReport(catId, frmDate) {
+			var tablId = "prdSalesReportTble";
+			var uiComp = document.getElementById(tablId).uiComp;
+			uiComp.load("product.productCategory.id=" + catId
+					+ "&amp;fromDateTime=" + frmDate
+					+ "&amp;orderBy=product.name");
+		}
+
+		function printOrders() {
+			var f = document.getElementById("psrFromDT").value;
+			var i = document.getElementById("prdCatId").value;
+			window.open("/app/module/sales/PrintProductOrders.xhtml?fromDateTime="+f+"&amp;prdCatId="+i);
+		}
+		
+	</script>
+
+</div>

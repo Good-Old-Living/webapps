@@ -1,0 +1,35 @@
+<div xmlns:c="app.ui.faces.component">
+	<h2>Customer Shopping Cart</h2>
+
+	<c:entityTable entity="ShoppingCart" lifeCycle="none">
+		<c:columns>
+			<c:column label="Id" value="#{shoppingCart.customer.id}" width="100" />
+			<c:column label="Name" value="#{shoppingCart.customer.name}"
+				width="250" />
+			<c:column label="Mobile" value="#{shoppingCart.customer.mobile}"
+				width="200" />
+			<c:column label="Email" value="#{shoppingCart.customer.email}" />
+		</c:columns>
+	</c:entityTable>
+	<c:tabs binds="shoppingCart">
+		<c:tab title="Line Items">
+			<c:entityTable entity="ShoppingCartLineItem"
+				filter="shoppingCartId=#{shoppingCart.id}" lifeCycle="c"
+				autoLoad="false">
+				<c:columns>
+					<c:column label="Product"
+						value="#{shoppingCartLineItem.product.brand} #{shoppingCartLineItem.productLineItem.product.name} #{shoppingCartLineItem.productLineItem.quantity} #{shoppingCartLineItem.productLineItem.unitOfMeasure.value}"
+						width="250" sortable="true" />
+					<c:column label="Quantity" value="#{shoppingCartLineItem.quantity}"
+						width="70" sortable="true" />
+					<c:column label="Price" value="#{shoppingCartLineItem.unitMrp}"
+						width="70" />
+					<c:column label="Price" value="#{shoppingCartLineItem.unitPrice}"
+						width="70" />
+					<c:column label="Total Price"
+						value="#{shoppingCartLineItem.totalPrice}" width="70" />
+				</c:columns>
+			</c:entityTable>
+		</c:tab>
+	</c:tabs>
+</div>

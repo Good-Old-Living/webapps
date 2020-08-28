@@ -16,12 +16,13 @@
 						<b:if
 							condition="#{salesOrder.deliveryAddress.housingComplexAddress} == null">
 							<div>
-								<p>#{salesOrder.deliveryAddress.address.address}</p>
+								<p>#{salesOrder.deliveryAddress.address.address}  [#{salesOrder.paymentReceived}]</p>
 							</div>
 							<b:else>
 								<div>
 									<p>#{salesOrder.deliveryAddress.housingComplexAddress.block}
-										- #{salesOrder.deliveryAddress.housingComplexAddress.number}</p>
+										- #{salesOrder.deliveryAddress.housingComplexAddress.number}
+										  [#{salesOrder.paymentReceived}]</p>
 								</div>
 							</b:else>
 						</b:if>
@@ -30,7 +31,7 @@
 						<b:if condition="#{salesOrder.deliveryAddressText} == null">
 
 							<b:else>
-								<p>#{salesOrder.deliveryAddressText} </p>
+								<p>#{salesOrder.deliveryAddressText}   [#{salesOrder.paymentReceived}]</p>
 							</b:else>
 						</b:if>
 					</b:else>
@@ -39,7 +40,7 @@
 
 			<div style="margin-left: 20px;">
 				<b:foreach entity="SalesOrderLineItem"
-					filter="salesOrderId=#{salesOrder.id}&amp;productLineItem.product.productCategory.id=[>]103&amp;orderBy=productLineItem.product.productCategory.id, productLineItem.product.name">
+					filter="salesOrderId=#{salesOrder.id}&amp;productLineItem.product.productCategory.id=[>]104&amp;productLineItem.product.productCategory.id=[&lt;>]4004&amp;orderBy=productLineItem.product.productCategory.id, productLineItem.product.name">
 
 					<p>#{salesOrderLineItem.productLineItem.product.brand}
 						#{salesOrderLineItem.productLineItem.product.name}

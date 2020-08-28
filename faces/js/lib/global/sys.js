@@ -36,6 +36,13 @@ var sys = {
 			msg = ex;
 		alert(msg);
 	},
+	alertError : function(e) {
+
+		if (sys.isValid(e["error"])) 
+			alert(e["error"]);
+		else 
+			alert(e);
+	},
 	
 	print : function (obj) {
 		alert(JSON.stringify(obj,null,2));

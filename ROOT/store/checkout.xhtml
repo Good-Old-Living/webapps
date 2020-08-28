@@ -13,8 +13,11 @@
 			<div id="checkoutWz">
 
 				<c:include src="/store/cart/inc/Address.xhtml" />
+				<c:panelGroup title="Delivery Instructions, if any">
+					<textarea id="delIntsInput" />
+				</c:panelGroup>
 
-				<c:panelGroup title="Select a payment method">
+				<c:panelGroup title="Select a payment method" id="paymentPanel">
 				    <div class="imp">If Grand Total is 0, then you can skip this step.</div>
 					<p>
 						<input type="radio" id="pmcod" name="paymentMethod" value="251"
@@ -37,11 +40,6 @@
 					</p>
 				</c:panelGroup>
 
-
-
-				<c:panelGroup title="Delivery Instructions, if any">
-					<textarea id="delIntsInput" />
-				</c:panelGroup>
 				<div class="clr" />
 				<!-- <c:panelGroup title="Delivery Slot">
 					<c:panelGrid>
@@ -55,7 +53,7 @@
 				<div class="clr" />
 				<div class="ralign">
 
-					<span class="commandButton noMargin rfloat"
+					<span id="poButton" class="commandButton noMargin rfloat" 
 						onclick="shoppingCart.submitOrder()">Place Order</span>
 
 				</div>
@@ -72,8 +70,12 @@
 						default="#{customer.id}" id="delCustId" />
 					<c:inputHidden value="#{salesOrder.paymentMode.id}"
 						id="payMethodId" />
-						<c:inputHidden value="#{salesOrder.paymentId}"
+					<c:inputHidden value="#{salesOrder.paymentId}"
 						id="paymentId" />
+					<c:inputHidden value="#{salesOrder.paymentOrderId}"
+						id="paymentOrderId" />	
+					<c:inputHidden value="#{salesOrder.transactionId}"
+						id="paymentTransId" />		
 					<c:inputHidden value="#{salesOrder.deliveryInstructions}"
 						id="delInsts" />
 
@@ -110,5 +112,17 @@
 
 			<div class="clr" />
 		</div>
+		
+		<script type="text/javascript">
+            (function() {
+            	var grandTotal = document.getElementById("grandTotal").getAttribute(
+				"amount");
+
+            	if (grandTotal == "0") {
+            		$("#paymentPanel").hide();
+            	}
+            })();
+		</script>
+		
 	</c:parameter>
 </c:template>

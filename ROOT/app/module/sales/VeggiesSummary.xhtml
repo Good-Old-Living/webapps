@@ -25,6 +25,10 @@
 	</div>
 	
 	<div style="margin: 10px 0 0 5px">
+		<a href="javascript:;" onclick="printGreensOrders()">Print Greens Orders</a>
+	</div>
+	
+	<div style="margin: 10px 0 0 5px">
 		<a href="javascript:;" onclick="printBlockwiseVeggiesOrders()">Print Blockwise Vegetable Orders</a>
 	</div>
 	
@@ -96,6 +100,11 @@
 		function printOrders() {
 			var f = document.getElementById("psrFromDT").value;
 			window.open("/app/module/sales/PrintOrders.xhtml?fromDateTime="+f);
+		}
+		
+		function printGreensOrders() {
+			var f = document.getElementById("psrFromDT").value;
+			window.open("/app/module/sales/PrintGreensOrders.xhtml?fromDateTime="+f);
 		}
 		
 		function printBlockwiseVeggiesOrders() {
